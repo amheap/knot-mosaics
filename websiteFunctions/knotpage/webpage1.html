@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mosaic Identifier</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <script src="js/main.js"></script>
+    <h1>Mosaic Identifier</h1>
+    <div class="dropdown">
+      <button onclick="myFunction()" class="dropbtn">Mosaic Size</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a id="size2"  onclick="tableCreate(2)" >2x2</a>
+          <a id="size3"  onclick="tableCreate(3)" >3x3</a>
+          <a id="size4"  onclick="tableCreate(4)" >4x4</a>
+          <a id="size5"  onclick="tableCreate(5)" >5x5</a>
+          <a id="size6"  onclick="tableCreate(6)" >6x6</a>
+          <a id="size7"  onclick="tableCreate(7)" >7x7</a>
+          <a id="size8"  onclick="tableCreate(8)" >8x8</a>
+          <a id="size9"  onclick="tableCreate(9)" >9x9</a>
+          <a id="size10" onclick="tableCreate(10)">10x10</a>
+        </div>
+    </div>
+    <table align="center">
+      <tr>
+        <td><div id=T1 ><img id="drag1"  src="pictures/T1.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T2 ><img id="drag2"  src="pictures/T2.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T3 ><img id="drag3"  src="pictures/T3.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T4 ><img id="drag4"  src="pictures/T4.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T5 ><img id="drag5"  src="pictures/T5.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T6 ><img id="drag6"  src="pictures/T6.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T7 ><img id="drag7"  src="pictures/T7.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T8 ><img id="drag8"  src="pictures/T8.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T9 ><img id="drag9"  src="pictures/T9.PNG"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td><div id=T10><img id="drag10" src="pictures/T10.PNG" draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+      </tr>
+    </table>
+
+<p><p>
+
+<div id='tableau'>
+    <table align="center">
+        <tr>
+           <td><div id=B1 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+           <td><div id=B2 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+           <td><div id=B3 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+        </tr>
+        <tr>
+           <td><div id=B4 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+           <td><div id=B5 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+           <td><div id=B6 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+        </tr>
+        <tr>
+           <td><div id=B7 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+           <td><div id=B8 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+           <td><div id=B9 class="div1" ondrop="drop(event)" draggable="true" ondragstart="dragBox(event)" ondragover="allowDrop(event)"></div></td>
+        </tr>
+    </table>
+  </div>
+
+    <div id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)"><img src="pictures/trash.PNG" width="75" height="75"></div>
+
+<p><p>
+      <button onclick="Submitbuttonclick(event)" class="dropbtn">Submit</button>
+
+      <p id = "results"> </p>
+
+  </body>
+</html>

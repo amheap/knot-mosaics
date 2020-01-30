@@ -1,0 +1,30 @@
+from flask import Flask, render_template, request, redirect
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+  return render_template("webpage1.html")
+
+
+@app.route("/signup", methods = ['POST'])
+def signup():
+	email = request.form['email']
+	print("The email address is '" + email + "'")
+	return redicrect('/')
+
+@app.route("/hello")
+def hello():
+	return """
+<h1>Flask Example</h1>
+<ul>
+<li><p>Decode</p></li>
+<li><p>Form</p></li>
+<li><p >get-example</p></li>
+</ul>
+"""
+
+@app.route("/results")
+
+if __name__ == "__main__":
+  app.run(debug=True, host="0.0.0.0")

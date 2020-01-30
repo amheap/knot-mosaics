@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mosaic Identifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+
+  <body>
+    {% if matrix %}
+    <div id="drawMosaic" data-matrix='{{ matrix }}'>
+    </div>
+    {% endif %}
+
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <h1>Mosaic Identifier</h1>
+    <div class="dropdown">
+      <button onclick="myFunction()" class="dropbtn">Mosaic Size</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a id="size2" value="2"  onselect="tableCreate(2, '0')" >2x2</a>
+          <a id="size3" value="3"  onclick="tableCreate(3, '0')" >3x3</a>
+          <a id="size4" value="4"  onclick="tableCreate(4, '0')" >4x4</a>
+          <a id="size5" value="5"  onclick="tableCreate(5, '0')" >5x5</a>
+          <a id="size6" value="6"  onclick="tableCreate(6, '0')" >6x6</a>
+          <a id="size7" value="7"  onclick="tableCreate(7, '0')" >7x7</a>
+          <a id="size8" value="8"  onclick="tableCreate(8, '0')" >8x8</a>
+          <a id="size9" value="9"  onclick="tableCreate(9, '0')" >9x9</a>
+          <a id="size10" value="10" onclick="tableCreate(10, '0')">10x10</a>
+        </div>
+      <!--<select class="dropbtn" onchange="changeFunc()">Mosaic Size
+        <div id="selectBox" class="dropdown-content">
+          <option id="size2" value="2" >2x2</option>
+          <option id="size3" value="3" >3x3</option>
+          <option id="size4" value="4" selected="selected" onclick="tableCreate(4, '0')" >4x4</option>
+          <option id="size5" value="5" >5x5</option>
+          <option id="size6" value="6" >6x6</option>
+          <option id="size7" value="7" >7x7</option>
+          <option id="size8" value="8" >8x8</option>
+          <option id="size9" value="9" >9x9</option>
+          <option id="size10" value="10" >10x10</option>
+        </div>> 
+      </select>-->
+    </div>
+    <div class="dropdown">
+      <button onclick="dropdownFunc2()" class="dropbtn">Space Efficient Layouts</button>
+        <div id="chooseKnot" class="dropdown-content">
+          <div id="6x6layouts" style="display:none;">
+            <a id="layout6_1"  onclick="tableCreate(6, '0,2,1,0,0,0,2,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,4,0,0,0,3,4,0')" >6_1</a>
+          </div> <!-- 6x6layouts -->
+          <div id="7x7layouts">
+          <a id="layout7_28"  onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,4,0,0,0,0,3,4,0')" >7-28</a>
+          <a id="layout7_29" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-29</a>
+          <a id="layout7_31" onclick="tableCreate(7, '0,0,2,1,0,0,0,0,2,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0')" >7-31</a>
+          <a id="layout7-34" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-34</a>
+          <a id="layout7-36" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-36</a>
+          </div> <!-- 7x7layouts -->
+        </div>
+    </div>
+    <div align="center"> 
+     <form action="/" method="post">
+     Search a knot:  <input type="search" name="knotSearch"><input type="submit">
+     </form>
+   </div>
+    
+    <table align="center" border="0">
+      <tr>
+        <td class="tileDisp"><div id=T1 ><img class="mosaicImage" id="drag1"  src="{{url_for('static', filename='pictures/T_1.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px" ></div></td>
+        <td class="tileDisp"><div id=T2 ><img class="mosaicImage" id="drag2"  src="{{url_for('static', filename='pictures/T_2.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T3 ><img class="mosaicImage" id="drag3"  src="{{url_for('static', filename='pictures/T_3.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T4 ><img class="mosaicImage" id="drag4"  src="{{url_for('static', filename='pictures/T_4.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T5 ><img class="mosaicImage" id="drag5"  src="{{url_for('static', filename='pictures/T_5.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T6 ><img class="mosaicImage" id="drag6"  src="{{url_for('static', filename='pictures/T_6.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T7 ><img class="mosaicImage" id="drag7"  src="{{url_for('static', filename='pictures/T_7.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T8 ><img class="mosaicImage" id="drag8"  src="{{url_for('static', filename='pictures/T_8.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T9 ><img class="mosaicImage" id="drag9"  src="{{url_for('static', filename='pictures/T_9.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+        <td class="tileDisp"><div id=T10><img class="mosaicImage" id="drag10" src="{{url_for('static', filename='pictures/T_10.PNG')}}" draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px"></div></td>
+      </tr>
+     </table>
+
+<p><p>
+
+<div id='tableau'>
+    <table align="center">
+
+    </table> 
+
+  </div>
+
+
+
+
+</br>
+
+<div align="center">
+{% if answer %}
+The knot is {{ answer }}
+{% endif %}
+</div>
+
+
+    <div id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)"><img src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
+
+<p><p>
+       <form action="/" method="post">
+       <input type="hidden" id="flaskVector" name="vector" value={% if matrix %}'{{ matrix }}'{% else %}'0'{% endif %}></input>
+       <input type="submit" name="vector2Flask" class="dropbtn"></input>
+      </form>       
+
+  </body>
+</html>

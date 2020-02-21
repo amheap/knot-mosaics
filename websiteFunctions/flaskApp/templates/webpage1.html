@@ -16,7 +16,7 @@
     <div class="dropdown">
       <button onclick="myFunction()" class="dropbtn">Mosaic Size</button>
         <div id="myDropdown" class="dropdown-content">
-          <a id="size2" value="2"  onselect="tableCreate(2, '0')" >2x2</a>
+          <a id="size2" value="2"  onclick="tableCreate(2, '0')" >2x2</a>
           <a id="size3" value="3"  onclick="tableCreate(3, '0')" >3x3</a>
           <a id="size4" value="4"  onclick="tableCreate(4, '0')" >4x4</a>
           <a id="size5" value="5"  onclick="tableCreate(5, '0')" >5x5</a>
@@ -47,9 +47,9 @@
             <a id="layout6_1"  onclick="tableCreate(6, '0,2,1,0,0,0,2,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,4,0,0,0,3,4,0')" >6_1</a>
           </div> <!-- 6x6layouts -->
           <div id="7x7layouts">
-          <a id="layout7_28"  onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,4,0,0,0,0,3,4,0')" >7-28</a>
-          <a id="layout7_29" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-29</a>
-          <a id="layout7_31" onclick="tableCreate(7, '0,0,2,1,0,0,0,0,2,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0')" >7-31</a>
+          <a id="layout7-28"  onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,4,0,0,0,0,3,4,0')" >7-27</a>
+          <a id="layout7-29" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-29</a>
+          <a id="layout7-31" onclick="tableCreate(7, '0,0,2,1,0,0,0,0,2,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0')" >7-31</a>
           <a id="layout7-34" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-34</a>
           <a id="layout7-36" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-36</a>
           </div> <!-- 7x7layouts -->
@@ -57,7 +57,22 @@
     </div>
     <div align="center"> 
      <form action="/" method="post">
-     Search a knot:  <input type="search" name="knotSearch"><input type="submit">
+     Search a knot:  <input type="search" name="knotSearch" {% if knotName %}value="{{ knotName }}" {% endif %}><input type="submit" value="Display Knot"><br>
+       <select name="minOpt1">
+       <option value="Crossings" selected="selected">Minimize number of crossings</option>
+       <option value="Mosaic" >Minimize mosaic number</option>
+       <option value="TileNum">Minimum Tile Number</option>
+       </select>
+       <select name="minOpt2">
+       <option value="Crossings" selected="selected">Minimize number of crossings</option>
+       <option value="Mosaic">Minimize mosaic number</option>
+       <option value="TileNum">Minimum Tile Number</option>
+       </select>
+       <select name="minOpt3">
+       <option value="Crossings" selected="selected">Minimize number of crossings</option>
+       <option value="Mosaic" >Minimize mosaic number</option>
+       <option value="TileNum">Minimum Tile Number</option>
+       </select>
      </form>
    </div>
     
@@ -92,7 +107,7 @@
 
 <div align="center">
 {% if answer %}
-The knot is {{ answer }}
+{{ answer }}
 {% endif %}
 </div>
 
@@ -102,7 +117,7 @@ The knot is {{ answer }}
 <p><p>
        <form action="/" method="post">
        <input type="hidden" id="flaskVector" name="vector" value={% if matrix %}'{{ matrix }}'{% else %}'0'{% endif %}></input>
-       <input type="submit" name="vector2Flask" class="dropbtn"></input>
+       <input type="submit" name="vector2Flask" class="dropbtn" value="Identify Knot"></input>
       </form>       
 
   </body>

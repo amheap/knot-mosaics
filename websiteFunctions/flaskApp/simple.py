@@ -9,6 +9,52 @@ import pandas as pd
 
 app = Flask(__name__)
 
+# defining the layout vectors used in returning a specified knot
+m7_27 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 0,  3, -1, -1, -1,  1,  0],
+ [ 0,  0,  3, -1, -1, -1,  1],
+ [ 0,  0,  0,  3, -1, -1,  4],
+ [ 0,  0,  0,  0,  3,  4,  0]])
+m7_29 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1,  4,  0],
+ [ 0,  3, -1, -1,  4,  0,  0],
+ [ 0,  0,  3,  4,  0,  0,  0]]) 
+m7_31 = np.array([[ 0,  0,  2,  1,  0,  0,  0],
+ [ 0,  2, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3, -1, -1, -1, -1,  4],
+ [ 0,  0,  3, -1, -1,  4,  0],
+ [ 0,  0,  0,  3,  4,  0,  0]])
+m7_32 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3,  4,  3, -1, -1,  4],
+ [ 0,  0,  0,  0,  3,  4,  0]])
+m7_34 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3, -1, -1, -1, -1,  4],
+ [ 0,  0,  3,  4,  3,  4,  0]])
+m7_36 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 2, -1, -1, -1, -1, -1,  4],
+ [ 3, -1, -1, -1, -1,  4,  0],
+ [ 0,  3, -1, -1,  4,  0,  0],
+ [ 0,  0,  3,  4,  0,  0,  0]])
+
+layoutDict = {27:m7_27, 29:m7_29, 31:m7_31, 34:m7_34, 36:m7_36 }
+
 @app.route('/')
 def home():
   return render_template("webpage1.html")
@@ -40,16 +86,31 @@ def results():
   """
   if list(request.form.keys())[0] == 'knotSearch':
     knotName = request.form['knotSearch']
-    print(knotName)
-    df = pd.read_csv("7_1FormatTest.csv")
-    vector = df[df.Name == knotName].Vector.get_values()[0]
+    min1 = request.form['minOpt1']
+    min2 = request.form['minOpt2']
+    min3 = request.form['minOpt3']
+    # check if nothing is submitted in the form
+    if knotName == '': return render_template('webpage1.html', answer='Please specify a knot')
+    #df = pd.read_csv("7_1FormatTest.csv")
+    df = pd.read_csv("all7x7.csv")
+    df = df.sort_values([min1, min2, min3])
+    mask = df.Name == knotName
+    if not mask.any(): return render_template('webpage1.html', answer='The knot you submitted was not found')
+    vector = df[mask].Vector.get_values()[0]
+    tileNum = df[mask].TileNum.get_values()[0]
+    mosaicNum = df[mask].Mosaic.get_values()[0]
+    print(vector)
     vector = np.fromstring(vector ,dtype=int, sep=',')
-    m = np.array([[ 0,  0,  2,  1,  0,  0,  0], [ 0,  2, -1, -1,  1,  0,  0], [ 2, -1, -1, -1, -1,  1,  0], [ 3, -1, -1, -1, -1, -1,  1], [ 0,  3, -1, -1, -1, -1,  4], [ 0,  0,  3, -1, -1,  4,  0], [ 0,  0,  0,  3,  4,  0,  0]])
-    m1=m.copy()
-    m1[m == -1] = vector 
+    
+    m1= layoutDict[tileNum].copy()
+    m1[m1 == -1] = vector 
     vv = m1.flatten()
     stringMatrix = np.array2string(vv, separator=',').replace('[','').replace(']','').replace(' ','')
-    return render_template('webpage1.html', matrix=stringMatrix, answer=knotName)
+    ans = str(mosaicNum) + '-' + str(tileNum) + " layout, " + knotName
+    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, knotName=knotName)
+  #******
+  #Second Part
+  #******
   Vorig = request.form['vector'];
   V = Vorig.split(",");
   V = [int(x) for x in V];
@@ -77,7 +138,7 @@ def results():
     inpt = " ".join(notation);
     print(inpt)
     if inpt == 'l i n k':
-      ans = "a link."
+      ans = "This is a link."
       return render_template('webpage1.html', answer=ans, matrix=Vorig)
 
     else:
@@ -86,9 +147,9 @@ def results():
       stdout = str(stdout);
       print(stdout)
       if stdout[2:-3] == "comp":
-        ans = "a composite knot for real"
+        ans = "This is a composite knot"
         return render_template('webpage1.html', answer=ans, matrix=Vorig)
-      elif stdout[2:-3] == "unknot":# return "Unknot"
+      elif stdout[2:-3] == "unknot":
         ans = "the unknot."
         return render_template('webpage1.html', answer=ans, matrix=Vorig)
 

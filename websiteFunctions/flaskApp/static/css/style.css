@@ -26,8 +26,17 @@ table {
 }
 
 th, td {
-  border: 2px solid #000;
+  border: 1px solid #000;
   padding: 0px;
+}
+
+table.results {
+  border-spacing: 5px;
+}
+
+table.results th, td, tr {
+  padding: 5px;
+  text-align: center;
 }
 
 .tileDisp {

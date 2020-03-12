@@ -132,10 +132,6 @@ function trashdrop(ev){
       s.id = 'dragged' + i;
       i++
     }
-    //console.log(name);
-    //console.log(s)
-    //console.log(data);
-    //var s=document.getElementById(data).cloneNode(true);
     ev.target.appendChild(s);
     //ev.dataTransfer.clearData();
     delete s
@@ -154,7 +150,6 @@ function trashdrop(ev){
     kid = document.getElementById(parent).children;
     var haskids
     haskids = kid.length;
-    //console.log(kid)
     if (haskids == 2) {
       var tilesource = document.getElementById(parent).children[1].src.toString();
       //var tilesource = "horse_123456";
@@ -176,16 +171,43 @@ function trashdrop(ev){
     }
 
 
-/* old drop event handler
-function drop(ev) {
-  ev.preventDefault();
-  var data=ev.dataTransfer.getData("text/html");
-  var nodeCopy = document.getElementById(data).cloneNode(true);
-  nodeCopy.id = "newId";
-  ev.target.appendChild(nodeCopy);
-}
 
-*/
+
+function setOptions() {
+  var val = document.getElementById("sel1").value;
+  var selbox = document.getElementById("sel2");
+  selbox.options.length = 0;
+  if (val == "Crossings") {
+  option1 = document.createElement("option");
+  option1.text = "Minimize mosaic size";
+  option1.value = "Mosaic";
+  option2 = document.createElement("option");
+  option2.text = "Minimize number of tiles";
+  option2.value = "TileNum";
+  selbox.add(option1);
+  selbox.add(option2);
+  }
+  else if (val == "Mosaic") {
+  option1 = document.createElement("option");
+  option1.text = "Minimize number of crossings";
+  option1.value = "Crossings";
+  option2 = document.createElement("option");
+  option2.text = "Minimize number of tiles";
+  option2.value = "TileNum";
+  selbox.add(option1);
+  selbox.add(option2);
+  }
+  else if (val == "TileNum") {
+  option1 = document.createElement("option");
+  option1.text = "Minimize number of crossings";
+  option1.value = "Crossings";
+  option2 = document.createElement("option");
+  option2.text = "Minimize mosiac size";
+  option2.value = "Mosaic";
+  selbox.add(option1);
+  selbox.add(option2);
+  }
+}
 
 
 

@@ -10,6 +10,35 @@ import pandas as pd
 app = Flask(__name__)
 
 # defining the layout vectors used in returning a specified knot
+m5_17 = np.array([[ 0,  2,  1,  0,  0],
+ [ 2, -1, -1,  1,  0],
+ [ 3, -1, -1, -1,  1],
+ [ 0,  3, -1, -1,  4],
+ [ 0,  0,  3,  4,  0]])
+m6_22 = np.array([[ 0,  2,  1,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0],
+ [ 3, -1, -1, -1,  1,  0],
+ [ 0,  3, -1, -1, -1,  1],
+ [ 0,  0,  3, -1, -1,  4],
+ [ 0,  0,  0,  3,  4,  0]])
+m6_24 = np.array([[ 0,  0,  2,  1,  0,  0],
+ [ 0,  2, -1, -1,  1,  0],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 0,  3, -1, -1,  4,  0],
+ [ 0,  0,  3,  4,  0,  0]])
+m6_27 = np.array([[ 0,  2,  1,  2,  1,  0],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 0,  3, -1, -1, -1,  1],
+ [ 0,  0,  3, -1, -1,  4],
+ [ 0,  0,  0,  3,  4,  0]])
+m6_32 = np.array([[ 0,  2,  1,  2,  1,  0],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 0,  3,  4,  3,  4,  0]])
 m7_27 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
  [ 2, -1, -1,  1,  0,  0,  0],
  [ 3, -1, -1, -1,  1,  0,  0],
@@ -53,7 +82,7 @@ m7_36 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
  [ 0,  3, -1, -1,  4,  0,  0],
  [ 0,  0,  3,  4,  0,  0,  0]])
 
-layoutDict = {27:m7_27, 29:m7_29, 31:m7_31, 34:m7_34, 36:m7_36 }
+layoutDict = {"5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_32, "7-27":m7_27, "7-29":m7_29, "7-31":m7_31, "7-32":m7_32, "7-34":m7_34, "7-36":m7_36 }
 
 @app.route('/')
 def home():
@@ -86,28 +115,41 @@ def results():
   """
   if list(request.form.keys())[0] == 'knotSearch':
     knotName = request.form['knotSearch']
+    knotName = str.strip(knotName)
     min1 = request.form['minOpt1']
     min2 = request.form['minOpt2']
-    min3 = request.form['minOpt3']
+    # set min3 to be the third option that wasn't chosen
+    min3 = "Crossings"
+    if min3 in [min1, min2]:
+      if "Mosaic" in [min1, min2]:
+        min3 = "TileNum"
+      else:
+        min3 = "Mosaic"
     # check if nothing is submitted in the form
     if knotName == '': return render_template('webpage1.html', answer='Please specify a knot')
     #df = pd.read_csv("7_1FormatTest.csv")
-    df = pd.read_csv("all7x7.csv")
-    df = df.sort_values([min1, min2, min3])
+    df = pd.read_csv("allKnots.csv")
+    df = df.sort_values(by=[min1, min2, min3])
     mask = df.Name == knotName
-    if not mask.any(): return render_template('webpage1.html', answer='The knot you submitted was not found')
+    if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found')
     vector = df[mask].Vector.get_values()[0]
+    print(df[mask].Crossings.get_values())
+    print(df[mask].TileNum.get_values())
     tileNum = df[mask].TileNum.get_values()[0]
     mosaicNum = df[mask].Mosaic.get_values()[0]
-    print(vector)
+    crossings = df[mask].Crossings.get_values()[0]
+    #print(vector)
     vector = np.fromstring(vector ,dtype=int, sep=',')
     
-    m1= layoutDict[tileNum].copy()
+    m1= layoutDict[str(mosaicNum) + '-' + str(tileNum)].copy()
     m1[m1 == -1] = vector 
     vv = m1.flatten()
     stringMatrix = np.array2string(vv, separator=',').replace('[','').replace(']','').replace(' ','')
-    ans = str(mosaicNum) + '-' + str(tileNum) + " layout, " + knotName
-    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, knotName=knotName)
+    ans = knotName + ', ' + str(mosaicNum) + '-' + str(tileNum) + " layout"
+    # A dictionary of all the values used in a response to a searched knot
+    resultsDict = {"tiles":tileNum, "mosaic":mosaicNum, "crossings":crossings, "name":knotName, "min1":min1, "min2":min2}
+    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, resultsDict=resultsDict)
+
   #******
   #Second Part
   #******
@@ -117,7 +159,7 @@ def results():
   V = np.array(V);
 ## checks if the mosaic is empty
   if np.sum(V) == 0:
-    ans = "not suitably connected."
+    ans = "Not suitably connected."
     return render_template('webpage1.html', answer=ans)
   size = int(math.sqrt(len(V)));
   M = V.reshape(size,size);
@@ -125,7 +167,7 @@ def results():
   connect = sc.isconnected(M);
   #print(connect)
   if not connect:
-    ans = "not suitably connected."
+    ans = "Not suitably connected."
     return render_template('webpage1.html', answer=ans, matrix=Vorig)
   else:
     listnotation = dt.dowker2(M);
@@ -133,7 +175,7 @@ def results():
     #print(listnotation)
     print(notation)
     if listnotation == [0, 0]:
-      ans = "the unknot"
+      ans = "This is the unknot"
       return render_template('webpage1.html', answer=ans, matrix=Vorig)
     inpt = " ".join(notation);
     print(inpt)
@@ -150,7 +192,7 @@ def results():
         ans = "This is a composite knot"
         return render_template('webpage1.html', answer=ans, matrix=Vorig)
       elif stdout[2:-3] == "unknot":
-        ans = "the unknot."
+        ans = "This is the unknot."
         return render_template('webpage1.html', answer=ans, matrix=Vorig)
 
 

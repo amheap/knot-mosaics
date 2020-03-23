@@ -293,6 +293,17 @@ function tableCreate(size, mat){
 }
 
 
+
+function tableClear(){
+  var matrix = document.getElementById("flaskVector").value.replace(/ /g,'');
+// count the number of commas in the matrix, add one and take square root to get size of mosaic
+  var mosaicSize = ((matrix.match(/,/g) || []).length + 1) ** .5;
+  console.log(matrix)
+  if (mosaicSize != 1){
+    tableCreate(mosaicSize, '0');
+    document.getElementById("flaskVector").value = '0';
+  }
+}
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {

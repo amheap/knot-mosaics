@@ -50,8 +50,12 @@
 </br>
     <div align="center"> 
      <form autocomplete="off" action="/" method="post">
-     Search a knot:  <input type="search" name="knotSearch" placeholder="3_1" {% if resultsDict %}value="{{ resultsDict['name'] }}" {% endif %}><input type="submit" value="Display Knot"><br>
-<em>Example: 3_1, 10_54, 11a_99, 16n_400</em><br>
+<div class="autocomplete" >
+     Search a knot:  <input id="knotSearchInput" type="text" name="knotSearch" placeholder="knot name" {% if resultsDict %}value="{{ resultsDict['name'] }}" {% endif %}>
+</div>
+<input type="submit" value="Display Knot"><br>
+<em>Example: 3_1, 10_54, 11a_99, 16n_400</em>
+<br><br>
        First Priority: <select name="minOpt1" id="sel1" onchange="setOptions()">
        {% if resultsDict %}
           <option value="Crossings" {% if resultsDict['min1'] != "Crossings" %}selected="selected"{% endif%}>Minimize number of crossings</option>
@@ -132,8 +136,8 @@
 {% endif %}
 </br>
 <div align="center">
-
      <form action="/" method="post">
+<button type="button" onclick="tableClear()" class="clearbtn">Clear Mosaic</button>
      <input type="hidden" id="flaskVector" name="vector" value={% if matrix %}'{{ matrix }}'{% else %}'0'{% endif %}></input>
      <input type="submit" name="vector2Flask" class="dropbtn" value="Identify Knot"></input>
      </form>      

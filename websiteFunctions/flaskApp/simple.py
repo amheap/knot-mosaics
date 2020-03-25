@@ -9,6 +9,8 @@ import pandas as pd
 
 app = Flask(__name__)
 
+df = pd.read_csv("allKnots.csv")
+knownKnots = sorted(df.Name.unique())
 # defining the layout vectors used in returning a specified knot
 m5_17 = np.array([[ 0,  2,  1,  0,  0],
  [ 2, -1, -1,  1,  0],
@@ -86,7 +88,8 @@ layoutDict = {"5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_
 
 @app.route('/')
 def home():
-  return render_template("webpage1.html")
+  print(knownKnots[:5])
+  return render_template("webpage1.html", knotNames=list(knownKnots))
 
 
 @app.route("/signup", methods = ['POST'])
@@ -126,15 +129,15 @@ def results():
       else:
         min3 = "Mosaic"
     # check if nothing is submitted in the form
-    if knotName == '': return render_template('webpage1.html', answer='Please specify a knot')
+    if knotName == '': return render_template('webpage1.html', answer='Please specify a knot', knotNames=list(knownKnots))
     #df = pd.read_csv("7_1FormatTest.csv")
     df = pd.read_csv("allKnots.csv")
     df = df.sort_values(by=[min1, min2, min3])
     mask = df.Name == knotName
-    if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found')
+    if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found', knotNames=list(knownKnots))
     vector = df[mask].Vector.get_values()[0]
-    print(df[mask].Crossings.get_values())
-    print(df[mask].TileNum.get_values())
+    #print(df[mask].Crossings.get_values())
+    #print(df[mask].TileNum.get_values())
     tileNum = df[mask].TileNum.get_values()[0]
     mosaicNum = df[mask].Mosaic.get_values()[0]
     crossings = df[mask].Crossings.get_values()[0]
@@ -148,7 +151,7 @@ def results():
     ans = knotName + ', ' + str(mosaicNum) + '-' + str(tileNum) + " layout"
     # A dictionary of all the values used in a response to a searched knot
     resultsDict = {"tiles":tileNum, "mosaic":mosaicNum, "crossings":crossings, "name":knotName, "min1":min1, "min2":min2}
-    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, resultsDict=resultsDict)
+    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, resultsDict=resultsDict, knotNames=list(knownKnots))
 
   #******
   #Second Part
@@ -160,7 +163,7 @@ def results():
 ## checks if the mosaic is empty
   if np.sum(V) == 0:
     ans = "Not suitably connected."
-    return render_template('webpage1.html', answer=ans)
+    return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots))
   size = int(math.sqrt(len(V)));
   M = V.reshape(size,size);
   #return "<p>"+str(M)+"</p>"
@@ -168,7 +171,7 @@ def results():
   #print(connect)
   if not connect:
     ans = "Not suitably connected."
-    return render_template('webpage1.html', answer=ans, matrix=Vorig)
+    return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
   else:
     listnotation = dt.dowker2(M);
     notation = [str(x) for x in listnotation];
@@ -176,12 +179,12 @@ def results():
     print(notation)
     if listnotation == [0, 0]:
       ans = "This is the unknot"
-      return render_template('webpage1.html', answer=ans, matrix=Vorig)
+      return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
     inpt = " ".join(notation);
     print(inpt)
     if inpt == 'l i n k':
       ans = "This is a link."
-      return render_template('webpage1.html', answer=ans, matrix=Vorig)
+      return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
 
     else:
       reducedDT = subprocess.Popen(['./webrunshellDT', inpt], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -190,10 +193,10 @@ def results():
       print(stdout)
       if stdout[2:-3] == "comp":
         ans = "This is a composite knot"
-        return render_template('webpage1.html', answer=ans, matrix=Vorig)
+        return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
       elif stdout[2:-3] == "unknot":
         ans = "This is the unknot."
-        return render_template('webpage1.html', answer=ans, matrix=Vorig)
+        return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
 
 
       stdout = str(stdout[4:-5]);
@@ -204,7 +207,7 @@ def results():
       print(reduced)
       if reduced == "'com'":
         ans = "the unknot"
-        return render_template('webpage1.html', answer=ans, matrix=Vorig)
+        return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
       else:
         finder = subprocess.Popen(['./webidentifyknot', reduced], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         stdout,stderr = finder.communicate();
@@ -212,7 +215,7 @@ def results():
         stdout = stdout[2:-4];
         #print(stdout)
         #return stdout
-        return render_template('webpage1.html', answer=stdout, matrix=Vorig)
+        return render_template('webpage1.html', answer=stdout, matrix=Vorig, knotNames=list(knownKnots))
 
 
 if __name__ == "__main__":

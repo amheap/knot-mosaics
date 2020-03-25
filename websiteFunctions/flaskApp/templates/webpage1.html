@@ -49,9 +49,10 @@
 </br>
 </br>
     <div align="center"> 
+
      <form autocomplete="off" action="/" method="post">
-<div class="autocomplete" >
-     Search a knot:  <input id="knotSearchInput" type="text" name="knotSearch" placeholder="knot name" {% if resultsDict %}value="{{ resultsDict['name'] }}" {% endif %}>
+
+     Search a knot: <div class="autocomplete" > <input id="knotSearchInput" type="text" name="knotSearch" placeholder="knot name" {% if resultsDict %}value="{{ resultsDict['name'] }}" {% endif %}>
 </div>
 <input type="submit" value="Display Knot"><br>
 <em>Example: 3_1, 10_54, 11a_99, 16n_400</em>
@@ -146,6 +147,12 @@
     <div><id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)"><img src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
 
 <p><p>
+
+<script>
+// initiating the autocomplete function on the knot search input
+var nameArray = {{ knotNames|tojson }};
+autocomplete(document.getElementById("knotSearchInput"), nameArray);
+</script>
 
   </body>
 </html>

@@ -191,6 +191,7 @@ def results():
       stdout,stderr = reducedDT.communicate();
       stdout = str(stdout);
       print(stdout)
+      print('HERE')
       if stdout[2:-3] == "comp":
         ans = "This is a composite knot"
         return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
@@ -211,9 +212,9 @@ def results():
       else:
         finder = subprocess.Popen(['./webidentifyknot', reduced], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         stdout,stderr = finder.communicate();
+        print(stdout)
         stdout = str(stdout);
         stdout = stdout[2:-4];
-        #print(stdout)
         #return stdout
         return render_template('webpage1.html', answer=stdout, matrix=Vorig, knotNames=list(knownKnots))
 

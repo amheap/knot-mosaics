@@ -333,7 +333,7 @@ window.onclick = function(event) {
   }
 }
 
-// The following is from w3schools.com and sets up the autocomplete functionality of the knot search
+// The following is from w3schools.com and sets up the autocomplete functionality of the knot search, with minor edits
 
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
@@ -352,10 +352,15 @@ function autocomplete(inp, arr) {
       a.setAttribute("class", "autocomplete-items");
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
+      /*set up the max number of autocomplete suggestions*/
+      var count = 0;
+      var stopAt = 5;
       /*for each item in the array...*/
       for (i = 0; i < arr.length; i++) {
         /*check if the item starts with the same letters as the text field value:*/
         if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          count = count + 1;
+          if (count > stopAt){break}
           /*create a DIV element for each matching element:*/
           b = document.createElement("DIV");
           /*make the matching letters bold:*/

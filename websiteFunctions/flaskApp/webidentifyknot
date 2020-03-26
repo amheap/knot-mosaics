@@ -1,12 +1,8 @@
 #!/bin/bash
+
  dt=$1
  james=$(echo $dt | sed 's/ //g' | sed 's/,]/]/g')
- if [ $james == "comp" ]; then echo "Composite Knot" 
- fi
- out=$(cat smalltable | grep -F $james | awk -F '&' '{print $1 ", " $2 ", "}' | tr -d "\n")
+ out=$(cat largestTable | grep -F $james | awk -F '&' '{print $2}' | tr -d "\n")
  echo $out
 
-## This takes takes a reduced DT notation, finds where it lives in 
-## the table, and then outputs the first two columns of that row, 
-## which are the two names of the knot.
-## If it sees comp, it will translate that to Composite Knot.
+## Takes the reduced dt notation as input, searched for it in the entire table, prints out knot name

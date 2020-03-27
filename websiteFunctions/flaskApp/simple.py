@@ -88,14 +88,14 @@ layoutDict = {"5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_
 
 @app.route('/')
 def home():
-  print(knownKnots[:5])
+  #print(knownKnots[:5])
   return render_template("webpage1.html", knotNames=list(knownKnots))
 
 
 @app.route("/signup", methods = ['POST'])
 def signup():
 	email = request.form['email']
-	print("The email address is '" + email + "'")
+	#print("The email address is '" + email + "'")
 	return redicrect('/')
 
 @app.route("/hello")
@@ -176,12 +176,12 @@ def results():
     listnotation = dt.dowker2(M);
     notation = [str(x) for x in listnotation];
     #print(listnotation)
-    print(notation)
+    #print(notation)
     if listnotation == [0, 0]:
       ans = "This is the unknot"
       return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
     inpt = " ".join(notation);
-    print(inpt)
+    #print(inpt)
     if inpt == 'l i n k':
       ans = "This is a link."
       return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
@@ -190,8 +190,7 @@ def results():
       reducedDT = subprocess.Popen(['./webrunshellDT', inpt], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
       stdout,stderr = reducedDT.communicate();
       stdout = str(stdout);
-      print(stdout)
-      print('HERE')
+      #print(stdout)
       if stdout[2:-3] == "comp":
         ans = "This is a composite knot"
         return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
@@ -201,11 +200,11 @@ def results():
 
 
       stdout = str(stdout[4:-5]);
-      print(stdout)
+      #print(stdout)
       reduced = stdout.replace(" ", "");
-      print(reduced)
+      #print(reduced)
       reduced = "[" + reduced.strip() + "]";
-      print(reduced)
+      #print(reduced)
       if reduced == "'com'":
         ans = "the unknot"
         return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
@@ -214,8 +213,7 @@ def results():
         stdout,stderr = finder.communicate();
         print(stdout)
         stdout = str(stdout);
-        stdout = stdout[2:-4];
-        #return stdout
+        stdout = stdout[2:-3];
         return render_template('webpage1.html', answer=stdout, matrix=Vorig, knotNames=list(knownKnots))
 
 

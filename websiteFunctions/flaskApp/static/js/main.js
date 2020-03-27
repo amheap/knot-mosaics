@@ -172,6 +172,70 @@ function trashdrop(ev){
     }
 
 
+/* changes a tile in the mosaic to the tile that corresponds to a 90 degree clockwise rotation */
+function rightClickRotate(ev){
+  var currentTile = ev.target.src.slice(-6,-4);
+  if (currentTile == "_1"){
+    var newTile = "drag4";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_2"){
+    var newTile = "drag1";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_3"){
+    var newTile = "drag2";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_4"){
+    var newTile = "drag3";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_5"){
+    var newTile = "drag6";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_6"){
+    var newTile = "drag5";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_7"){
+    var newTile = "drag8";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_8"){
+    var newTile = "drag7";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "_9"){
+    var newTile = "drag10";
+    ev.target.src = document.getElementById(newTile).src;
+  } else if (currentTile == "10"){
+    var newTile = "drag9";
+    ev.target.src = document.getElementById(newTile).src;
+  }
+  /* the next section redefines the flaskVector */
+  var size = window.value;
+  if (size == null) {
+     size = 3
+  }
+  var lim = size*size;
+  var j;
+  var tilearray = Array(0);
+  for (j = 1; j < lim+1; j++) {
+    parent = "B" + j;
+    var kid;
+    kid = document.getElementById(parent).children;
+    var haskids
+    haskids = kid.length;
+    //console.log(kid)
+    if (haskids == 2) {
+      var tilesource = document.getElementById(parent).children[1].src.toString();
+      var tile = tilesource.split("_").pop();
+      tile = tile.substring(0, tile.length - 4);
+      tilearray.push(tile)
+    } else {
+      tile = "0"
+      tilearray.push(tile)
+    }
+  }
+  finalarray = tilearray.toString();
+  document.getElementById("flaskVector").value = finalarray;
+
+  return false;
+}
 
 
 function setOptions() {
@@ -283,6 +347,8 @@ function tableCreate(size, mat){
                      //console.log(matrix[position])
                      var img = document.getElementById(imgID).cloneNode(true);
                      img.id = "dragged" + position + 1000;// This is so it doesn't conflict with other ids
+                     /* rotate the tile when right-clicked */
+                     img.setAttribute('oncontextmenu', "rightClickRotate(event);return false;");
                      td.appendChild(img);
                    }
                 }
@@ -375,6 +441,8 @@ function autocomplete(inp, arr) {
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
               closeAllLists();
+              /*un-select the item*/
+              currentFocus = -1;
           });
           a.appendChild(b);
         }
@@ -397,9 +465,9 @@ function autocomplete(inp, arr) {
         /*and and make the current item more visible:*/
         addActive(x);
       } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
+        /*If the ENTER key is pressed and an item is highlighted, prevent the form from being submitted,*/
         if (currentFocus > -1) {
+          e.preventDefault();
           /*and simulate a click on the "active" item:*/
           if (x) x[currentFocus].click();
         }
@@ -438,5 +506,3 @@ document.addEventListener("click", function (e) {
 }
 
 
-var nameList = ["item1", "tony", "luffy"];
-//autocomplete(document.getElementById("knotSearchInput"), nameList);

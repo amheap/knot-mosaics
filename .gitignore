@@ -1,2 +1,6 @@
 # pychache #
 websiteFunctions/flaskApp/_pychache_
+# ignore .swp files
+**/*.swp
+# largestTable is too large a file for GitHub
+**/largestTable

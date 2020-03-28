@@ -1,4 +1,5 @@
-# pychache #
+# probably maybe don't want the pychace?
+__pychache__
 websiteFunctions/flaskApp/_pychache_
 # ignore .swp files
 **/*.swp

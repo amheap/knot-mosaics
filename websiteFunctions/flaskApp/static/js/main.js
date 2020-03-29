@@ -75,6 +75,7 @@ function drop(ev){
     //console.log(s)
     //console.log(data);
     //var s=document.getElementById(data).cloneNode(true);
+    s.setAttribute('oncontextmenu', "rightClickRotate(event);return false;");
     ev.target.appendChild(s);
     ev.target.src=s.src;
     //ev.dataTransfer.clearData();

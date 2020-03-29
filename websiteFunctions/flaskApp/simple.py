@@ -6,6 +6,7 @@ import dowker2 as dt
 import subprocess
 import shlex
 import pandas as pd
+import re #for regex
 
 app = Flask(__name__)
 
@@ -119,6 +120,18 @@ def results():
   if list(request.form.keys())[0] == 'knotSearch':
     knotName = request.form['knotSearch']
     knotName = str.strip(knotName)
+    # check if nothing is submitted in the form
+    if knotName == '': return render_template('webpage1.html', answer='Please specify a knot', knotNames=list(knownKnots))
+    # check that the input is of the desired knot-name format ie 'digits(a/n)_digits'
+    expectedList = re.findall("^\d+[an]*_\d+$", knotName)
+    print(expectedList)
+    if len(expectedList) != 1:
+      ans = "Oops! Check the format of your knot name: " + knotName
+      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots))
+    # did they forget the a/n?
+    if re.findall("^1[123]_", knotName):
+      ans = "Need to specify alternating or non-alternating: " + knotName
+      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots))
     min1 = request.form['minOpt1']
     min2 = request.form['minOpt2']
     # set min3 to be the third option that wasn't chosen
@@ -128,9 +141,6 @@ def results():
         min3 = "TileNum"
       else:
         min3 = "Mosaic"
-    # check if nothing is submitted in the form
-    if knotName == '': return render_template('webpage1.html', answer='Please specify a knot', knotNames=list(knownKnots))
-    #df = pd.read_csv("7_1FormatTest.csv")
     df = pd.read_csv("allKnots.csv")
     df = df.sort_values(by=[min1, min2, min3])
     mask = df.Name == knotName

@@ -239,37 +239,56 @@ function rightClickRotate(ev){
 }
 
 
-function setOptions() {
-  var val = document.getElementById("sel1").value;
+function setOptions(selected1, selected2) {
+  var val1 = selected1 || document.getElementById("sel1").value;
+  var val2 = selected2 || document.getElementById("sel2").value || 'nullVal';
   var selbox = document.getElementById("sel2");
   selbox.options.length = 0;
-  if (val == "Crossings") {
+  if (val1 == "Crossings") {
   option1 = document.createElement("option");
-  option1.text = "Minimize mosaic size";
+  option1.text = "Minimize mosaic";
   option1.value = "Mosaic";
+  if (val2 != val1 && val2 == option1.value){
+    option1.setAttribute('selected', 'selected');
+  }
   option2 = document.createElement("option");
-  option2.text = "Minimize number of tiles";
+  option2.text = "Minimize tiles";
   option2.value = "TileNum";
+  if (val2 != val1 && val2 == option2.value){
+    option2.setAttribute('selected', 'selected');
+  }
   selbox.add(option1);
   selbox.add(option2);
   }
-  else if (val == "Mosaic") {
+  else if (val1 == "Mosaic") {
   option1 = document.createElement("option");
-  option1.text = "Minimize number of crossings";
+  option1.text = "Minimize crossings";
   option1.value = "Crossings";
+  if (val2 != val1 && val2 == option1.value){
+    option1.setAttribute('selected', 'selected');
+  }
   option2 = document.createElement("option");
-  option2.text = "Minimize number of tiles";
+  option2.text = "Minimize tiles";
   option2.value = "TileNum";
+  if (val2 != val1 && val2 == option2.value){
+    option2.setAttribute('selected', 'selected');
+  }
   selbox.add(option1);
   selbox.add(option2);
   }
-  else if (val == "TileNum") {
+  else if (val1 == "TileNum") {
   option1 = document.createElement("option");
-  option1.text = "Minimize number of crossings";
+  option1.text = "Minimize crossings";
   option1.value = "Crossings";
+  if (val2 != val1 && val2 == option1.value){
+    option1.setAttribute('selected', 'selected');
+  }
   option2 = document.createElement("option");
-  option2.text = "Minimize mosiac size";
+  option2.text = "Minimize mosaic";
   option2.value = "Mosaic";
+  if (val2 != val1 && val2 == option2.value){
+    option2.setAttribute('selected', 'selected');
+  }
   selbox.add(option1);
   selbox.add(option2);
   }

@@ -13,6 +13,7 @@ app = Flask(__name__)
 df = pd.read_csv("allKnots.csv")
 knownKnots = sorted(df.Name.unique())
 # defining the layout vectors used in returning a specified knot
+m4_12 = np.zeros([4,4]) - 1
 m5_17 = np.array([[ 0,  2,  1,  0,  0],
  [ 2, -1, -1,  1,  0],
  [ 3, -1, -1, -1,  1],
@@ -85,7 +86,7 @@ m7_36 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
  [ 0,  3, -1, -1,  4,  0,  0],
  [ 0,  0,  3,  4,  0,  0,  0]])
 
-layoutDict = {"5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_32, "7-27":m7_27, "7-29":m7_29, "7-31":m7_31, "7-32":m7_32, "7-34":m7_34, "7-36":m7_36 }
+layoutDict = {"4-12":m4_12, "5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_32, "7-27":m7_27, "7-29":m7_29, "7-31":m7_31, "7-32":m7_32, "7-34":m7_34, "7-36":m7_36 }
 
 @app.route('/')
 def home():
@@ -127,11 +128,11 @@ def results():
     print(expectedList)
     if len(expectedList) != 1:
       ans = "Oops! Check the format of your knot name: " + knotName
-      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots))
+      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
     # did they forget the a/n?
-    if re.findall("^1[123]_", knotName):
+    if re.findall("^1[1-6]_", knotName):
       ans = "Need to specify alternating or non-alternating: " + knotName
-      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots))
+      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
     min1 = request.form['minOpt1']
     min2 = request.form['minOpt2']
     # set min3 to be the third option that wasn't chosen
@@ -144,7 +145,7 @@ def results():
     df = pd.read_csv("allKnots.csv")
     df = df.sort_values(by=[min1, min2, min3])
     mask = df.Name == knotName
-    if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found', knotNames=list(knownKnots))
+    if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found', knotNames=list(knownKnots), lastSearch=knotName)
     vector = df[mask].Vector.get_values()[0]
     #print(df[mask].Crossings.get_values())
     #print(df[mask].TileNum.get_values())
@@ -161,7 +162,7 @@ def results():
     ans = knotName + ', ' + str(mosaicNum) + '-' + str(tileNum) + " layout"
     # A dictionary of all the values used in a response to a searched knot
     resultsDict = {"tiles":tileNum, "mosaic":mosaicNum, "crossings":crossings, "name":knotName, "min1":min1, "min2":min2}
-    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, resultsDict=resultsDict, knotNames=list(knownKnots))
+    return render_template('webpage1.html', matrix=stringMatrix, answer=ans, resultsDict=resultsDict, knotNames=list(knownKnots), lastSearch=knotName)
 
   #******
   #Second Part

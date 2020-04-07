@@ -13,6 +13,7 @@ app = Flask(__name__)
 df = pd.read_csv("allKnots.csv")
 knownKnots = sorted(df.Name.unique())
 # defining the layout vectors used in returning a specified knot
+# the m4_12 layout isn't really a layout, just a placeholder for the 3_1 knot
 m4_12 = np.zeros([4,4]) - 1
 m5_17 = np.array([[ 0,  2,  1,  0,  0],
  [ 2, -1, -1,  1,  0],
@@ -147,11 +148,21 @@ def results():
     mask = df.Name == knotName
     if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found', knotNames=list(knownKnots), lastSearch=knotName)
     vector = df[mask].Vector.get_values()[0]
-    #print(df[mask].Crossings.get_values())
-    #print(df[mask].TileNum.get_values())
     tileNum = df[mask].TileNum.get_values()[0]
+    # Check if the tile number is realized (then same with mosaic and crossing)
+    if tileNum == df[mask].TileNum.min(): 
+      minTile = 'min'
+    else: minTile = 'known'
     mosaicNum = df[mask].Mosaic.get_values()[0]
+    if mosaicNum == df[mask].Mosaic.min(): 
+      minMosaic = 'min'
+    else: minMosaic = 'known'
     crossings = df[mask].Crossings.get_values()[0]
+    if str(crossings) == re.search("^\d+", knotName).group():
+      minCrossing = 'min'
+    elif crossings > df[mask].Crossings.min():
+      minCrossing = 'known'
+    else: minCrossing = 'unknown'
     #print(vector)
     vector = np.fromstring(vector ,dtype=int, sep=',')
     
@@ -161,7 +172,7 @@ def results():
     stringMatrix = np.array2string(vv, separator=',').replace('[','').replace(']','').replace(' ','')
     ans = knotName + ', ' + str(mosaicNum) + '-' + str(tileNum) + " layout"
     # A dictionary of all the values used in a response to a searched knot
-    resultsDict = {"tiles":tileNum, "mosaic":mosaicNum, "crossings":crossings, "name":knotName, "min1":min1, "min2":min2}
+    resultsDict = {"tiles":tileNum, "mosaic":mosaicNum, "crossings":crossings, "name":knotName, "min1":min1, "min2":min2, "realized":[minTile, minMosaic, minCrossing]}
     return render_template('webpage1.html', matrix=stringMatrix, answer=ans, resultsDict=resultsDict, knotNames=list(knownKnots), lastSearch=knotName)
 
   #******
@@ -186,7 +197,8 @@ def results():
   else:
     listnotation = dt.dowker2(M);
     notation = [str(x) for x in listnotation];
-    #print(listnotation)
+    print(M)
+    print(listnotation)
     #print(notation)
     if listnotation == [0, 0]:
       ans = "This is the unknot"

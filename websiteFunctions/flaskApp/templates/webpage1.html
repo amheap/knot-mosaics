@@ -88,6 +88,8 @@
     </div>
 </br>
 </br>
+  <div class="container" style="display: flex">
+  <div style="width:{% if resultsDict %}50%{% else %}100%{% endif %}" > <!-- mosaic -->
     <table align="center" border="0">
       <tr>
         <td class="tileDisp"><div id=T1 ><img class="mosaicImage" id="drag1"  src="{{url_for('static', filename='pictures/T_1.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px" ></div></td>
@@ -117,7 +119,7 @@
 
 </br>
 
-<div align="center">
+<div id="ans" align="center">
 {% if answer %}
 {{ answer }}
 {% endif %}
@@ -125,22 +127,6 @@
 
 </br>
 
-{% if resultsDict %}
-<div align="center">
-<table class="results">
-<tr>
-  <th>Number of Tiles</th>
-  <th>Crossings</th>
-  <th>Mosaic Size</th>
-</tr>
-<tr>
-  <td>{{ resultsDict['tiles'] }}</td>
-  <td>{{ resultsDict['crossings'] }}</td>
-  <td>{{ resultsDict['mosaic'] }}</td>
-</tr>
-</table>
-</div>
-{% endif %}
 </br>
 <div align="center">
      <form action="/" method="post">
@@ -150,6 +136,29 @@
      </form>      
 </div>
 
+</div> <!-- mosaic -->
+
+{% if resultsDict %}
+<div id="resultsTable" style="flex-grow: 1;margin: auto">
+<table class="results">
+<tr>
+  <th>Number of Tiles</th>
+  <th>Crossings</th>
+  <th>Mosaic Size</th>
+</tr>
+<tr>
+  <td class="{{ resultsDict['realized'][0] }}">{{ resultsDict['tiles'] }}</td>
+  <td class="{{ resultsDict['realized'][2] }}">{{ resultsDict['crossings'] }}</td>
+  <td class="{{ resultsDict['realized'][1] }}">{{ resultsDict['mosaic'] }}</td>
+</tr>
+</table>
+<span style="color: #00FF00">&#11035;</span>: Minimum realized</br>
+<span style="color: #87CEFA">&#11035;</span>: Minimum realized on other mosaic</br>
+<span>&#11036;</span>: Mosaic with this realized unknown
+</div>
+{% endif %}
+</div> <!-- container -->
+
     <div><id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)"><img src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
 
 <p>*All knots with crossing number 10 or less have a space-efficient minimal knot moasic. Knots with higher crossing numbers may be missing.<p>
@@ -158,8 +167,11 @@
 // initiating the autocomplete function on the knot search input
 var nameArray = {{ knotNames|tojson }};
 autocomplete(document.getElementById("knotSearchInput"), nameArray);
+
+/* setting the search options */
 {%if resultsDict %}
   setOptions('{{ resultsDict['min1'] }}', '{{ resultsDict['min2'] }}');
+{% else %} setOptions();
 {% endif %}
 
 </script>

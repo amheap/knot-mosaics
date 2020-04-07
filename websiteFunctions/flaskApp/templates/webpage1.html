@@ -26,7 +26,7 @@
 </div>
 <input type="submit" value="Display Knot"><br>
 <em>Example: 3_1, 10_54, 11a_98, 12n_522</em>
-<br><br>
+<br>
        First Priority: <select name="minOpt1" id="sel1" onchange="setOptions()">
        {% if resultsDict %}
           <option value="Crossings" {% if resultsDict['min1'] != "Crossings" %}selected="selected"{% endif%}>Minimize crossings</option>
@@ -90,6 +90,8 @@
 </br>
   <div class="container" style="display: flex">
   <div style="width:{% if resultsDict %}50%{% else %}100%{% endif %}" > <!-- mosaic -->
+    <div id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)">
+      <img  src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
     <table align="center" border="0">
       <tr>
         <td class="tileDisp"><div id=T1 ><img class="mosaicImage" id="drag1"  src="{{url_for('static', filename='pictures/T_1.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px" ></div></td>
@@ -159,7 +161,6 @@
 {% endif %}
 </div> <!-- container -->
 
-    <div><id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)"><img src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
 
 <p>*All knots with crossing number 10 or less have a space-efficient minimal knot moasic. Knots with higher crossing numbers may be missing.<p>
 

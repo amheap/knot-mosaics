@@ -66,11 +66,20 @@ th, td {
 
 table.results {
   border-spacing: 5px;
+  align: left;
 }
 
 table.results th, td, tr {
   padding: 5px;
   text-align: center;
+}
+
+/* change background color depending on what elements are minimized */
+table.results td.min {
+  background-color: #00FF00;
+}
+table.results td.known {
+  background-color: #87CEFA;
 }
 
 .tileDisp {

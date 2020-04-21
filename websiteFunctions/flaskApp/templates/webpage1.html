@@ -14,7 +14,7 @@
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
     <div align="center">
     <h1>Mosaic Maker</h1>
-    <p>Drag tiles onto the grid to make a knot mosaic, or search and display your favorite knot* as a space efficient mosaic! </br>
+    <p>Drag tiles onto the grid to make a knot mosaic, or search and display your favorite knot* as a knot mosaic! </br>
        Right click a tile to roatate it!
     </p>
     </div><!-- top content -->
@@ -140,7 +140,10 @@
 
 </div> <!-- mosaic -->
 
+
+<!-- Table to be displayed after searching for a knot -->
 {% if resultsDict %}
+{% set symbDict = {'min':'10004', 'known':'10060', 'unknown':'10686'} %}
 <div id="resultsTable" style="flex-grow: 1;margin: auto">
 <table class="results">
 <tr>
@@ -149,14 +152,14 @@
   <th>Mosaic Size</th>
 </tr>
 <tr>
-  <td class="{{ resultsDict['realized'][0] }}">{{ resultsDict['tiles'] }}</td>
-  <td class="{{ resultsDict['realized'][2] }}">{{ resultsDict['crossings'] }}</td>
-  <td class="{{ resultsDict['realized'][1] }}">{{ resultsDict['mosaic'] }}</td>
+  <td class="{{ resultsDict['realized'][0] }}">&#{{ symbDict[resultsDict['realized'][0]] }} {{ resultsDict['tiles'] }}</td>
+  <td class="{{ resultsDict['realized'][2] }}">&#{{ symbDict[resultsDict['realized'][2]] }} {{ resultsDict['crossings'] }}</td>
+  <td class="{{ resultsDict['realized'][1] }}">&#{{ symbDict[resultsDict['realized'][1]] }} {{ resultsDict['mosaic'] }}</td>
 </tr>
 </table>
-<span style="color: #00FF00">&#11035;</span>: Minimum realized</br>
-<span style="color: #87CEFA">&#11035;</span>: Minimum realized on other mosaic</br>
-<span>&#11036;</span>: Mosaic with this realized unknown
+<span style="color: #00FF00">&#10004;</span>: Minimum realized</br>
+<span style="color: #87CEFA">&#10060;</span>: Minimum realized on other mosaic</br>
+<span>&#10686;</span>: Mosaic with this realized unknown
 </div>
 {% endif %}
 </div> <!-- container -->

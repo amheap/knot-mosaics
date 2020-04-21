@@ -134,6 +134,10 @@ def results():
     if re.findall("^1[1-6]_", knotName):
       ans = "Need to specify alternating or non-alternating: " + knotName
       return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
+    # looking for a knot with crossing number greater than 16?
+    if re.findall("^1[7-9]_", knotName):
+      ans = "Knots with crossing number greater than 16 have are unknown"
+      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
     min1 = request.form['minOpt1']
     min2 = request.form['minOpt2']
     # set min3 to be the third option that wasn't chosen
@@ -146,7 +150,9 @@ def results():
     df = pd.read_csv("allKnots.csv")
     df = df.sort_values(by=[min1, min2, min3])
     mask = df.Name == knotName
-    if not mask.any(): return render_template('webpage1.html', answer='The ' + knotName + ' knot was not found', knotNames=list(knownKnots), lastSearch=knotName)
+    if not mask.any(): 
+      ans = 'A mosaic for the ' + knotName + ' knot has not yet been discovered'
+      return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
     vector = df[mask].Vector.get_values()[0]
     tileNum = df[mask].TileNum.get_values()[0]
     # Check if the tile number is realized (then same with mosaic and crossing)
@@ -197,9 +203,9 @@ def results():
   else:
     listnotation = dt.dowker2(M);
     notation = [str(x) for x in listnotation];
-    print(M)
+    #print(M)
     print(listnotation)
-    #print(notation)
+    print(notation)
     if listnotation == [0, 0]:
       ans = "This is the unknot"
       return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))
@@ -234,7 +240,7 @@ def results():
       else:
         finder = subprocess.Popen(['./webidentifyknot', reduced], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         stdout,stderr = finder.communicate();
-        print(stdout)
+        #print(stdout)
         stdout = str(stdout);
         stdout = stdout[2:-3];
         return render_template('webpage1.html', answer=stdout, matrix=Vorig, knotNames=list(knownKnots))

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mosaic Maker</title>
+    <title>Knot Mosaic Maker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
 
@@ -13,7 +13,7 @@
 
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
     <div align="center">
-    <h1>Mosaic Maker</h1>
+    <h1>Knot Mosaic Maker</h1>
     <p>Drag tiles onto the grid to make a knot mosaic, or search and display your favorite knot* as a knot mosaic! </br>
        Right click a tile to roatate it!
     </p>
@@ -26,6 +26,7 @@
 </div>
 <input type="submit" value="Display Knot"><br>
 <em>Example: 3_1, 10_54, 11a_98, 12n_522</em>
+<br>
 <br>
        First Priority: <select name="minOpt1" id="sel1" onchange="setOptions()">
        {% if resultsDict %}
@@ -83,15 +84,28 @@
           <a id="layout7-32" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-32</a>
           <a id="layout7-34" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-34</a>
           <a id="layout7-36" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-36</a>
+          <a id="layout7-37" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-37</a>
+          <a id="layout7-39" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-39</a>
+          <a id="layout7-41" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-41</a>
+
+        
           </div> <!-- 7x7layouts -->
         </div>
     </div>
 </br>
-</br>
   <div class="container" style="display: flex">
   <div style="width:{% if resultsDict %}50%{% else %}100%{% endif %}" > <!-- mosaic -->
+
+<div align="center">
     <div id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)">
       <img  src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
+     <form action="/" method="post">
+<button type="button" onclick="tableClear()" class="clearbtn">Clear Mosaic</button>
+     <input type="hidden" id="flaskVector" name="vector" value={% if matrix %}'{{ matrix }}'{% else %}'0'{% endif %}></input>
+     <input type="submit" name="vector2Flask" class="dropbtn" value="Identify Knot"></input>
+     </form>      
+</div>
+
     <table align="center" border="0">
       <tr>
         <td class="tileDisp"><div id=T1 ><img class="mosaicImage" id="drag1"  src="{{url_for('static', filename='pictures/T_1.PNG')}}"  draggable="true" ondragover="allowDrop(event)" ondragstart="drag(event)"  width="50px" height="50px" ></div></td>
@@ -130,13 +144,6 @@
 </br>
 
 </br>
-<div align="center">
-     <form action="/" method="post">
-<button type="button" onclick="tableClear()" class="clearbtn">Clear Mosaic</button>
-     <input type="hidden" id="flaskVector" name="vector" value={% if matrix %}'{{ matrix }}'{% else %}'0'{% endif %}></input>
-     <input type="submit" name="vector2Flask" class="dropbtn" value="Identify Knot"></input>
-     </form>      
-</div>
 
 </div> <!-- mosaic -->
 

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#cd ~/Desktop/researchwork
- 
-./newVectorMake | ./shellfill7_4 | ./dowker2 | ./runshellfindDT | ./newidentifyknot
-
-## This just runs all the programs into each other. The cd line makes it
-## so that it always calls the files from the right spot.

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#cd ~/Desktop/researchwork
- 
-./7_9comb_dt_make | ./runshellfindDT | ./newidentifyknot
-
-## This just runs all the programs into each other. The cd line makes it
-## so that it always calls the files from the right spot.

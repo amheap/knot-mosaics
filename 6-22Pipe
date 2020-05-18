@@ -1,0 +1,7 @@
+#!/bin/bash
+ 
+## This runs all the programs into each other
+
+## change the dt_make file and the identifyknot file to the ones you want
+./6-22_dt_make | ./runshellfindDT | ./identifyKnot7-10
+

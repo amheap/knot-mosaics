@@ -1,0 +1,29 @@
+#!/bin/bash
+
+## This takes takes a reduced DT notation, finds where it lives in 
+## the specified table, and then outputs the first two columns of that row, 
+## which are the two names of the knot.
+
+# CHOOSE A TABLE
+table=table/knotTable0-16
+
+while read line
+do 
+ IFS=';'; combined=(${line}); unset IFS
+ dt=$combined
+ ogvector=${combined[1]}
+ cleaned_dt=$(echo $dt | sed 's/ //g' | sed 's/,]/]/g')
+# the length was for skipping all dt notations that couldn't be for 9-10 crossing knots
+# length=${#cleaned_dt} 
+ if [ $cleaned_dt == "comp" ]; then continue 
+## Skip if the length if the dt notation is shorter than the 9-crossing knots  -- commented out
+# elif [ "$length" -lt "20" ]; then continue 
+ else 
+  line=$(cat $table | grep -F $cleaned_dt)
+  if [ -z "$line" ]; then continue; fi
+## Tests if dt notation is in table, if not just skips to next one without writing
+  echo $line | awk -F '&' '{print $1 " " $2 " "}' | tr -d "\n"
+  echo $ogvector
+ fi
+done
+

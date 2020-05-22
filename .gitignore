@@ -5,3 +5,5 @@
 **/*.swp
 # largestTable is too large a file for GitHub
 **/largestTable
+**/knotTable0-16
+**/knotTable11-16

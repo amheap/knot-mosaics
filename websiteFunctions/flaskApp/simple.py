@@ -14,7 +14,7 @@ df = pd.read_csv("allKnots.csv")
 knownKnots = sorted(df.Name.unique())
 # defining the layout vectors used in returning a specified knot
 # the m4_12 layout isn't really a layout, just a placeholder for the 3_1 knot
-m4_12 = np.zeros([4,4]) - 1
+m4_12 = np.zeros([4,4]).astype('int') - 1
 m5_17 = np.array([[ 0,  2,  1,  0,  0],
  [ 2, -1, -1,  1,  0],
  [ 3, -1, -1, -1,  1],
@@ -148,7 +148,7 @@ def results():
     if knotName == '': return render_template('webpage1.html', answer='Please specify a knot', knotNames=list(knownKnots))
     # check that the input is of the desired knot-name format ie 'digits(a/n)_digits'
     expectedList = re.findall("^\d+[an]*_\d+$", knotName)
-    print(expectedList)
+    #print(expectedList)
     if len(expectedList) != 1:
       ans = "Oops! Check the format of your knot name: " + knotName
       return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
@@ -207,6 +207,7 @@ def results():
   #Second Part
   #******
   Vorig = request.form['vector'];
+  #print(Vorig + ' HERE')
   V = Vorig.split(",");
   V = [int(x) for x in V];
   V = np.array(V);
@@ -226,8 +227,8 @@ def results():
     listnotation = dt.dowker2(M);
     notation = [str(x) for x in listnotation];
     #print(M)
-    print(listnotation)
-    print(notation)
+    #print(listnotation)
+    #print(notation)
     if listnotation == [0, 0]:
       ans = "This is the unknot"
       return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))

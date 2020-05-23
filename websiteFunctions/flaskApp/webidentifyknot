@@ -2,7 +2,7 @@
 
  dt=$1
  james=$(echo $dt | sed 's/ //g' | sed 's/,]/]/g')
- out=$(cat largestTable | grep -F $james | awk -F '&' '{print $2}' | tr -d "\n")
+ out=$(cat knotTable0-16 | grep -F $james | awk -F '&' '{print $2}' | tr -d "\n")
  echo $out
 
 ## Takes the reduced dt notation as input, searched for it in the entire table, prints out knot name

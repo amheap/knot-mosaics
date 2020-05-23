@@ -28,8 +28,8 @@ def isconnected(K):
      ### We can finally start iterating. The premise here is simple:        ###
      ### if a tile has the right side leaving it, the one on its right      ###
      ### should also have a strand leaving it, similarly with ups and downs ###
-     for i in range(length):
-         for j in range(length):
+     for i in range(length + 1):
+         for j in range(length + 1):
              if newK[i,j] in rightoff and newK[i,j+1] in lefton:
                      truth = False
              elif newK[i,j] in righton and newK[i,j+1] in leftoff:

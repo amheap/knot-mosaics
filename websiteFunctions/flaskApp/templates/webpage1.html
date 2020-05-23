@@ -56,37 +56,37 @@
     <div class="dropdown">
       <button onclick="myFunction()" class="dropbtn">Mosaic Size</button>
         <div id="myDropdown" class="dropdown-content">
-          <a id="size2" value="2"  onclick="tableCreate(2, '0')" >2x2</a>
-          <a id="size3" value="3"  onclick="tableCreate(3, '0')" >3x3</a>
-          <a id="size4" value="4"  onclick="tableCreate(4, '0')" >4x4</a>
-          <a id="size5" value="5"  onclick="tableCreate(5, '0')" >5x5</a>
-          <a id="size6" value="6"  onclick="tableCreate(6, '0')" >6x6</a>
-          <a id="size7" value="7"  onclick="tableCreate(7, '0')" >7x7</a>
-          <a id="size8" value="8"  onclick="tableCreate(8, '0')" >8x8</a>
-          <a id="size9" value="9"  onclick="tableCreate(9, '0')" >9x9</a>
-          <a id="size10" value="10" onclick="tableCreate(10, '0')">10x10</a>
+          <a id="size2" value="2"  onclick="tableClear();tableCreate(2, '0')" >2x2</a>
+          <a id="size3" value="3"  onclick="tableClear();tableCreate(3, '0')" >3x3</a>
+          <a id="size4" value="4"  onclick="tableClear();tableCreate(4, '0')" >4x4</a>
+          <a id="size5" value="5"  onclick="tableClear();tableCreate(5, '0')" >5x5</a>
+          <a id="size6" value="6"  onclick="tableClear();tableCreate(6, '0')" >6x6</a>
+          <a id="size7" value="7"  onclick="tableClear();tableCreate(7, '0')" >7x7</a>
+          <a id="size8" value="8"  onclick="tableClear();tableCreate(8, '0')" >8x8</a>
+          <a id="size9" value="9"  onclick="tableClear();tableCreate(9, '0')" >9x9</a>
+          <a id="size10" value="10" onclick="tableClear();tableCreate(10, '0')">10x10</a>
         </div>
     </div>
     <div class="dropdown">
       <button onclick="dropdownFunc2()" class="dropbtn">Space Efficient Layouts</button>
         <div id="chooseKnot" class="dropdown-content">
           <div id="6x6layouts" >
-            <a id="layout5-17"  onclick="tableCreate(5, '0,2,1,0,0,2,0,0,1,0,3,0,0,0,1,0,3,0,0,4,0,0,3,4,0')" >5-17</a>
-            <a id="layout6-22"  onclick="tableCreate(6, '0,2,1,0,0,0,2,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,4,0,0,0,3,4,0')" >6-22</a>
-            <a id="layout6-24"  onclick="tableCreate(6, '0,2,1,0,0,0,2,0,0,1,0,0,3,0,0,0,1,0,2,0,0,0,4,0,3,0,0,4,0,0,0,3,4,0,0,0')" >6-24</a>
-            <a id="layout6-27"  onclick="tableCreate(6, '0,2,1,2,1,0,2,0,0,0,0,1,3,0,0,0,0,4,0,3,0,0,0,1,0,0,3,0,0,4,0,0,0,3,4,0')" >6-27</a>
-            <a id="layout6-32"  onclick="tableCreate(6, '0,2,1,2,1,0,2,0,0,0,0,1,3,0,0,0,0,4,2,0,0,0,0,1,3,0,0,0,0,4,0,3,4,3,4,0')" >6-32</a>
+            <a id="layout5-17"  onclick="tableClear();tableCreate(5, '0,2,1,0,0,2,0,0,1,0,3,0,0,0,1,0,3,0,0,4,0,0,3,4,0')" >5-17</a>
+            <a id="layout6-22"  onclick="tableClear();tableCreate(6, '0,2,1,0,0,0,2,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,0,1,0,0,3,0,0,4,0,0,0,3,4,0')" >6-22</a>
+            <a id="layout6-24"  onclick="tableClear();tableCreate(6, '0,2,1,0,0,0,2,0,0,1,0,0,3,0,0,0,1,0,2,0,0,0,4,0,3,0,0,4,0,0,0,3,4,0,0,0')" >6-24</a>
+            <a id="layout6-27"  onclick="tableClear();tableCreate(6, '0,2,1,2,1,0,2,0,0,0,0,1,3,0,0,0,0,4,0,3,0,0,0,1,0,0,3,0,0,4,0,0,0,3,4,0')" >6-27</a>
+            <a id="layout6-32"  onclick="tableClear();tableCreate(6, '0,2,1,2,1,0,2,0,0,0,0,1,3,0,0,0,0,4,2,0,0,0,0,1,3,0,0,0,0,4,0,3,4,3,4,0')" >6-32</a>
           </div> <!-- 6x6layouts -->
           <div id="7x7layouts">
-          <a id="layout7-28"  onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,4,0,0,0,0,3,4,0')" >7-27</a>
-          <a id="layout7-29" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-29</a>
-          <a id="layout7-31" onclick="tableCreate(7, '0,0,2,1,0,0,0,0,2,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0')" >7-31</a>
-          <a id="layout7-32" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-32</a>
-          <a id="layout7-34" onclick="tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-34</a>
-          <a id="layout7-36" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-36</a>
-          <a id="layout7-37" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-37</a>
-          <a id="layout7-39" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-39</a>
-          <a id="layout7-41" onclick="tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-41</a>
+          <a id="layout7-28"  onclick="tableClear();tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,0,1,0,0,0,3,0,0,4,0,0,0,0,3,4,0')" >7-27</a>
+          <a id="layout7-29" onclick="tableClear();tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-29</a>
+          <a id="layout7-31" onclick="tableClear();tableCreate(7, '0,0,2,1,0,0,0,0,2,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0')" >7-31</a>
+          <a id="layout7-32" onclick="tableClear();tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-32</a>
+          <a id="layout7-34" onclick="tableClear();tableCreate(7, '0,2,1,0,0,0,0,2,0,0,1,0,0,0,3,0,0,0,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-34</a>
+          <a id="layout7-36" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,4,0,0,3,0,0,4,0,0,0,0,3,4,0,0,0')" >7-36</a>
+          <a id="layout7-37" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-37</a>
+          <a id="layout7-39" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-39</a>
+          <a id="layout7-41" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-41</a>
 
         
           </div> <!-- 7x7layouts -->

@@ -2,11 +2,12 @@
 
 This repository contains the work done by James Canning and Greg Vinal, with Dr. Aaron Heap and Dr. Doug Baldwin from SUNY Geneseo.
 In the main directory are the files used to run the pipeline that finds all possible knot mosaics on a given layout.
-The websiteFunctions directory contains all the files needed to run the flask website.
+The websiteFunctions/flaskApp directory contains all the files needed to run the flask website.
 The pythonFiles directory contains files used to draw knots
+The shellfindFiles directory contains dummy files used for runshellfind
 
 
-Below are instructions
+Below are instructions on running various pieces of the project
 
 How to start a new pipeline
 In main directory copy the base_dt_make and basePipe files into new files

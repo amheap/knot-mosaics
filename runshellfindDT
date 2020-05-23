@@ -7,7 +7,7 @@ do
    IFS=';'; combined=(${line}); unset IFS
    notation=$combined
    ogvector=${combined[1]}
-   var=`echo $notation | bin/shellfind Makefile testout` 
+   var=`echo $notation | bin/shellfind shellfindFiles/Makefile shellfindFiles/testout` 
 
    if [[ "$var" != "" ]] ; then
       echo $var";"$ogvector

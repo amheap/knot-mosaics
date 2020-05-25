@@ -159,9 +159,10 @@ for i in range(df.shape[0]):
     #surface.write_to_png(save_path + str(name) + ".png")
 
 # ****************************************
-''' For drawing knots from a given set of vectors'''
+''' For drawing knots from a given vector'''
 # ****************************************
 
+'''
 # Specify size of masaic and how large to scale the image
 mosaic_size = 7
 tile_scale = 50
@@ -181,3 +182,4 @@ surface = cairo.PSSurface(save_path, mosaic_size * tile_scale, mosaic_size * til
 draw_knot(m, surface, tile_scale, mosaic_size)
 # If creating a png file, uncomment the next line   
 #surface.write_to_png(save_path + str(name) + ".png")
+'''

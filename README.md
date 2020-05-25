@@ -6,6 +6,10 @@ The websiteFunctions/flaskApp directory contains all the files needed to run the
 The pythonFiles directory contains files used to draw knots
 The shellfindFiles directory contains dummy files used for runshellfind
 
+*************************************
+NOTE: The tables of knots that contain knots with crossing number up to 16 are too large for this github repository to store. Here's a link to the full table:
+___GET LINK___
+*************************************
 
 Below are instructions on running various pieces of the project
 

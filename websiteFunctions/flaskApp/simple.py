@@ -210,7 +210,7 @@ def results():
   V = Vorig.split(",");
   V = [int(x) for x in V];
   V = np.array(V);
-  print(V)
+  #print(V)
 ## checks if the mosaic is empty
   if np.sum(V) == 0:
     ans = "Not suitably connected."
@@ -218,9 +218,9 @@ def results():
   size = int(math.sqrt(len(V)));
   M = V.reshape(size,size);
   #return "<p>"+str(M)+"</p>"
-  print(M)
+  #print(M)
   connect = sc.isconnected(M);
-  print(connect)
+  #print(connect)
   if not connect:
     ans = "Not suitably connected."
     return render_template('webpage1.html', answer=ans, matrix=Vorig, knotNames=list(knownKnots))

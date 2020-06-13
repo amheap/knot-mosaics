@@ -177,19 +177,19 @@ for i in range(df.shape[0]):
 mosaic_size = 7
 tile_scale = 50
 # Choose your layout
-m = layoutDict['7-31'].copy()
+m = layoutDict['7-29'].copy()
 # Add your vector
-v = [10,7,7,10,7,8,7,10,7,9,10,8,7,9,9,10,9,10]
+v = [10,9,9,10,7,10,7,10,7,9,7,9,8,9,10]
 m[m == -1] = v
 
-save_path = "./"
-# Use the following line for making eps files
-#surface = cairo.PSSurface(save_path, mosaic_size * tile_scale, mosaic_size * tile_scale)
+save_path = "C://Users//Owner//Documents//Geneseo//Heap Research//images//knots//test3"
+# Use the following line for making eps files (comment out otherwise)
+surface = cairo.PSSurface(save_path + '.eps', mosaic_size * tile_scale, mosaic_size * tile_scale)
 
-# Use the following line for making png files
-surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, mosaic_size * tile_scale, mosaic_size * tile_scale)
+# Use the following line if you are ONLY making a png file (comment out otherwise)
+#surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, mosaic_size * tile_scale, mosaic_size * tile_scale)
 
 draw_knot(m, surface, tile_scale, mosaic_size)
-# If creating a png file, uncomment the next line
-surface.write_to_png(save_path + str(name) + ".png")
+# If creating a png file, uncomment the next line (you can run this line while also creating an eps file)
+surface.write_to_png(save_path + ".png")
 

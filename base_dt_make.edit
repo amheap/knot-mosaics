@@ -1,0 +1,375 @@
+#!/opt/anaconda3/bin/python
+
+
+
+"""
+This is an edit to make the search go through all mosaics of the min crossings first before going to the next
+"""
+import numpy as np
+import fileinput
+import math
+from itertools import product
+
+# choose the layout, written as a string of the form 'mosiacSize-numberTiles'
+# options are defined in layoutDict below
+layout = '7-31'
+
+#choose the minimum crossing number of knots you're looking for
+minCrossings = 9
+
+# You're all set!
+ 
+#defining layouts
+m4_12 = np.array([[ 0,  2,  1,  0],
+ [ 2, -1, -1,  1],
+ [ 3, -1, -1,  1],
+ [ 0,  3,  4,  0]])
+m5_17 = np.array([[ 0,  2,  1,  0,  0],
+ [ 2, -1, -1,  1,  0],
+ [ 3, -1, -1, -1,  1],
+ [ 0,  3, -1, -1,  4],
+ [ 0,  0,  3,  4,  0]])
+m6_22 = np.array([[ 0,  2,  1,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0],
+ [ 3, -1, -1, -1,  1,  0],
+ [ 0,  3, -1, -1, -1,  1],
+ [ 0,  0,  3, -1, -1,  4],
+ [ 0,  0,  0,  3,  4,  0]])
+m6_24 = np.array([[ 0,  0,  2,  1,  0,  0],
+ [ 0,  2, -1, -1,  1,  0],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 0,  3, -1, -1,  4,  0],
+ [ 0,  0,  3,  4,  0,  0]])
+m6_27 = np.array([[ 0,  2,  1,  2,  1,  0],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 0,  3, -1, -1, -1,  1],
+ [ 0,  0,  3, -1, -1,  4],
+ [ 0,  0,  0,  3,  4,  0]])
+m6_32 = np.array([[ 0,  2,  1,  2,  1,  0],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 2, -1, -1, -1, -1,  1],
+ [ 3, -1, -1, -1, -1,  4],
+ [ 0,  3,  4,  3,  4,  0]])
+m7_27 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 0,  3, -1, -1, -1,  1,  0],
+ [ 0,  0,  3, -1, -1, -1,  1],
+ [ 0,  0,  0,  3, -1, -1,  4],
+ [ 0,  0,  0,  0,  3,  4,  0]])
+m7_29 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1,  4,  0],
+ [ 0,  3, -1, -1,  4,  0,  0],
+ [ 0,  0,  3,  4,  0,  0,  0]])
+m7_31 = np.array([[ 0,  0,  2,  1,  0,  0,  0],
+ [ 0,  2, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3, -1, -1, -1, -1,  4],
+ [ 0,  0,  3, -1, -1,  4,  0],
+ [ 0,  0,  0,  3,  4,  0,  0]])
+m7_32 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3,  4,  3, -1, -1,  4],
+ [ 0,  0,  0,  0,  3,  4,  0]])
+m7_34 = np.array([[ 0,  2,  1,  0,  0,  0,  0],
+ [ 2, -1, -1,  1,  0,  0,  0],
+ [ 3, -1, -1, -1,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3, -1, -1, -1, -1,  4],
+ [ 0,  0,  3,  4,  3,  4,  0]])
+m7_36 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 2, -1, -1, -1, -1, -1,  4],
+ [ 3, -1, -1, -1, -1,  4,  0],
+ [ 0,  3, -1, -1,  4,  0,  0],
+ [ 0,  0,  3,  4,  0,  0,  0]])
+m7_37 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1,  4,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3,  4,  3, -1, -1,  4],
+ [ 0,  0,  0,  0,  3,  4,  0]])
+m7_39 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1,  4,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3, -1, -1, -1, -1,  4],
+ [ 0,  0,  3,  4,  3,  4,  0]])
+m7_41 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
+ [ 2, -1, -1, -1, -1,  1,  0],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 2, -1, -1, -1, -1, -1,  4],
+ [ 3, -1, -1, -1, -1, -1,  1],
+ [ 0,  3, -1, -1, -1, -1,  4],
+ [ 0,  0,  3,  4,  3,  4,  0]])
+
+layoutDict = {"4-12":m4_12, "5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_32, "7-27":m7_27, "7-29":m7_29, "7-31":m7_31, "7-32":m7_32, "7-34":m7_34, "7-36":m7_36, "7-37":m7_37, "7-39":m7_39, "7-41":m7_41}
+
+fshell = layoutDict[layout]
+
+n = np.count_nonzero(fshell == -1)
+split1 = math.floor(n/2)
+split2 = n - split1
+arr1 = np.array([x for x in product([7, 8, 9, 10], repeat=split1)])
+arr2 = np.array([x for x in product([7, 8, 9, 10], repeat=split2)])
+def shellfill( shell , vector):
+    newShell = shell.copy()
+    newShell[newShell == -1] = vector
+    return newShell
+
+
+### This function finds the first 2 in the knot
+def firsti(M):
+    i = -1
+    val = 0
+    while val == 0:
+        i += 1
+        val = M.item(i)
+    a = i // len(M)
+    b = i % len(M)
+    return [a, b]
+
+def dowker2(M):
+    ''' Returns the dt notation of a knot mosaic matrix
+     :param M - a square numpy array representing a knot mosaic
+
+     :returns finalDT - a list of the dt notation (only even numbers)
+    '''
+    ## We need to initialize some things to start at the 2 and follow the knot from there
+    ## These 5 take care of the walking
+    starti = firsti(M)[0]
+    startj = firsti(M)[1]
+    lastcell = [starti, startj]
+    currenti = starti
+    currentj = startj + 1
+    ## These three take care of the output
+    pairs = []
+    length = len(M)
+    i = 1
+    path = [2]
+    ## this will take care of links
+    tilesvisit = 1
+    crosstiles = np.count_nonzero(M==7) + np.count_nonzero(M==8) + np.count_nonzero(M==9) + np.count_nonzero(M==10)
+    linknumber = np.count_nonzero(M) + crosstiles
+    ## Nothing interesting happens until 9 & 10
+    while [currenti, currentj] != [starti, startj]:
+        #if len(path) > length:
+        #    return 'link'
+        tilesvisit += 1
+        path.append(M[currenti, currentj])
+        if M[currenti, currentj] == 1 and lastcell == [currenti, currentj - 1]:
+            lastcell = [currenti, currentj]
+            currenti += 1
+        elif M[currenti, currentj] == 1 and lastcell == [currenti + 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 2 and lastcell == [currenti + 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 2 and lastcell == [currenti, currentj + 1]:
+            lastcell = [currenti, currentj]
+            currenti += 1
+        elif M[currenti, currentj] == 3 and lastcell == [currenti, currentj + 1]:
+            lastcell = [currenti, currentj]
+            currenti += -1
+        elif M[currenti, currentj] == 3 and lastcell == [currenti - 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 4 and lastcell == [currenti - 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 4 and lastcell == [currenti, currentj - 1]:
+            lastcell = [currenti, currentj]
+            currenti += - 1
+        elif M[currenti, currentj] == 5 and lastcell == [currenti, currentj - 1]:
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 5 and lastcell == [currenti, currentj + 1]:
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 6 and lastcell == [currenti + 1, currentj]:
+            lastcell = [currenti, currentj]
+            currenti += -1
+        elif M[currenti, currentj] == 6 and lastcell == [currenti - 1, currentj]:
+            lastcell = [currenti, currentj]
+            currenti += 1
+        elif M[currenti, currentj] == 7 and lastcell == [currenti + 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 7 and lastcell == [currenti - 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 7 and lastcell == [currenti, currentj + 1]:
+            lastcell = [currenti, currentj]
+            currenti += -1
+        elif M[currenti, currentj] == 7 and lastcell == [currenti, currentj - 1]:
+            lastcell = [currenti, currentj]
+            currenti += 1
+        elif M[currenti, currentj] == 8 and lastcell == [currenti + 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 8 and lastcell == [currenti - 1, currentj]:
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 8 and lastcell == [currenti, currentj + 1]:
+            lastcell = [currenti, currentj]
+            currenti += 1
+        elif M[currenti, currentj] == 8 and lastcell == [currenti, currentj - 1]:
+            lastcell = [currenti, currentj]
+            currenti += -1
+
+        ## Here, we need to find which are overcrossings and undercrossings. That's
+        ## not too hard. Then, when we hit one of these crossing tiles, we want to take
+        ## whatever number we are on, record it, and record the index of where we found
+        ## it. Then, later we can match each entry with the same index, and then just take the
+        ## tuple of numbers and string them together for our actual DT notation.
+        elif M[currenti, currentj] == 9 and lastcell == [currenti, currentj - 1]:
+            pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 9 and lastcell == [currenti, currentj + 1]:
+            pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 9 and lastcell == [currenti + 1, currentj]:
+            if i % 2 == 0:
+                pairs.append((currenti * length + currentj, -i))
+            else:
+                pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currenti += -1
+        elif M[currenti, currentj] == 9 and lastcell == [currenti - 1, currentj]:
+            if i % 2 == 0:
+                pairs.append((currenti * length + currentj, -i))
+            else:
+                pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currenti += 1
+        elif M[currenti, currentj] == 10 and lastcell == [currenti, currentj - 1]:
+            if i % 2 == 0:
+                pairs.append((currenti * length + currentj, -i))
+            else:
+                pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currentj += 1
+        elif M[currenti, currentj] == 10 and lastcell == [currenti, currentj + 1]:
+            if i % 2 == 0:
+                pairs.append((currenti * length + currentj, -i))
+            else:
+                pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currentj += -1
+        elif M[currenti, currentj] == 10 and lastcell == [currenti + 1, currentj]:
+            pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currenti += -1
+        elif M[currenti, currentj] == 10 and lastcell == [currenti - 1, currentj]:
+            pairs.append((currenti * length + currentj, i))
+            i += 1
+            lastcell = [currenti, currentj]
+            currenti += 1
+
+    # This part converts pairs to only the even numbers of the Dowker Notation, 
+    # in the correct order
+    pairs = np.array(pairs)
+    evens = pairs[1::2]
+    odds = pairs[::2]
+    finalDT = [len(odds), 0]
+    crossn = np.count_nonzero(M==9) + np.count_nonzero(M==10)
+    if tilesvisit != linknumber:
+        finalDT = 'link'
+    else:
+        for i in range(len(odds)):
+            finalDT.append(evens[evens[:,0] == odds[:,0][i]][0][1])
+        return finalDT
+
+
+def make_dts(a1, a2, min_crossings):
+    a1_reduced = a1.copy()
+    a1_reduced[a1_reduced < 9] = 0
+    a1_reduced[a1_reduced >= 9] = 1
+    a1_sum = np.sum(a1_reduced, 1)
+
+    a2_reduced = a2.copy()
+    a2_reduced[a2_reduced < 9] = 0
+    a2_reduced[a2_reduced >= 9] = 1
+    a2_sum = np.sum(a2_reduced, 1)
+    """ old code here from original method
+    # the next block combines a1 and a2 into vectors with at least min_crossings 9s and 10s
+    # starts i at minimum crossings needed in a1 if all entrees in a2 are crossings
+    for i in range(min_crossings - len(a2[0]), np.max(a1_sum) + 1):
+        mask1 = a1_sum == i
+        # j starts at min needed based on i, ends at max possible 
+        for j in range(minCrossings - i, len(a2[0]) + 1):
+            mask2 = a2_sum == j
+            # combine each a1 and a2 vector that has i and j crossings respectively
+            for line1 in a1[mask1]:
+                for line2 in a2[mask2]:
+                    v = ([int(x) for x in np.concatenate((line1, line2))])
+                    ogVector = str(v).replace(' ', '')
+                    m = shellfill(fshell, v)
+                    dt = dowker2(m)
+                    if dt == None:
+                        continue
+                    
+
+                    
+                    print(str(dt).replace(',', '')[1:-1]+";"+ogVector.rstrip())
+    """
+
+    # edit to find all mosaics with fewer crossings first
+    l1 = len(a1[0])
+    l2 = len(a2[0])
+    iterations = l1 + l2 - min_crossings # the number of different crossings possible
+    for k in range(iterations + 1):
+        current_crossings = min_crossings + k
+        if current_crossings < l2:
+            r = range(current_crossings + 1)
+        else:
+            r = range(current_crossings - l2, l1 + 1)
+
+        for i in range(current_crossings + 1):
+            mask1 = a1_sum == i
+            mask2 = a2_sum == current_crossings - i
+
+            for line1 in a1[mask1]:
+                for line2 in a2[mask2]:
+                    v = ([int(x) for x in np.concatenate((line1, line2))])
+                    ogVector = str(v).replace(' ', '')
+                    m = shellfill(fshell, v)
+                    dt = dowker2(m)
+                    if dt == None:
+                        continue
+
+                    print(str(dt).replace(',', '')[1:-1]+";"+ogVector.rstrip())
+
+
+make_dts(arr1, arr2, minCrossings)
+
+## Basically, this program has two parts: the big block of text that's the 'ifelse'
+## statements which "walk" along the knot, and the added comments in the 9 & 10 cases
+## which output the actual dawker notation.
+
+## The output of this function as it stands is a list of tuples whose first entries are
+## the index where each 9 & 10 lives, and secondly where

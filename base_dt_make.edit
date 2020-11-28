@@ -349,7 +349,7 @@ def make_dts(a1, a2, min_crossings):
         else:
             r = range(current_crossings - l2, l1 + 1)
 
-        for i in range(current_crossings + 1):
+        for i in r:
             mask1 = a1_sum == i
             mask2 = a2_sum == current_crossings - i
 

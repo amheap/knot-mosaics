@@ -312,10 +312,11 @@ def make_dts(a1, a2, min_crossings):
 
     # the next block combines a1 and a2 into vectors with at least min_crossings 9s and 10s
     # starts i at minimum crossings needed in a1 if all entrees in a2 are crossings
-    for i in range(min_crossings - len(a2[0]), np.max(a1_sum) + 1):
+    # if min_crossings is less than the length of half the vector, start at 0
+    for i in range(max(0, min_crossings - len(a2[0])), np.max(a1_sum) + 1):
         mask1 = a1_sum == i
         # j starts at min needed based on i, ends at max possible 
-        for j in range(minCrossings - i, len(a2[0]) + 1):
+        for j in range(max(0, minCrossings - i), len(a2[0]) + 1):
             mask2 = a2_sum == j
             # combine each a1 and a2 vector that has i and j crossings respectively
             for line1 in a1[mask1]:

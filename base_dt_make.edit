@@ -12,7 +12,7 @@ from itertools import product
 
 # choose the layout, written as a string of the form 'mosiacSize-numberTiles'
 # options are defined in layoutDict below
-layout = '7-31'
+layout = '7-27'
 
 #choose the minimum crossing number of knots you're looking for
 minCrossings = 9

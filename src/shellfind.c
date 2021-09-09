@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-FILE *fp, *gp;
+FILE *gp;
 
 signed char a0[100], a1[100], a2[100], a3[100],  b[100], b1[100][3], 
     bridge[100],
@@ -51,8 +51,7 @@ int alg, dd, dd1, r, nr, cc1, cc2, cc3, k1, row, gencount,
 
 main(int argc, char *argv[])
 {
-  fp=fopen(argv[1],"r");
-  gp=fopen(argv[2],"w");
+  gp=fopen(argv[1],"w");
 
   searchchange=30;
   
@@ -115,7 +114,6 @@ main(int argc, char *argv[])
   for (i=1; i<=np; i+=2) printf("%4d,", a0[i]*g0[i]);
   printf("]");
   printf("\n");
-  fclose(fp);
   fclose(gp);
   return 0;     
 }

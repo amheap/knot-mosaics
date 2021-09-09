@@ -1,6 +1,6 @@
 #!/bin/bash
    notation=$1
-   var=`echo $notation | bin/shellfind shellfindFiles/smalltable shellfindFiles/testout` 
+   var=`echo $notation | bin/shellfind shellfindFiles/testout`
 
    if [[ "$var" != "" ]] ; then
       echo $var

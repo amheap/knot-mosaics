@@ -10,4 +10,4 @@ RUN pip3 install -r requirements-flask.txt
 
 COPY websiteFunctions/flaskApp .
 
-CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
+CMD [ "gunicorn", "--bind=0.0.0.0:5000", "--workers=2", "app:app" ]

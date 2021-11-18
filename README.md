@@ -20,7 +20,7 @@ This file can also be found in compressed gzip format at `websiteFunctions/flask
 
 ### Docker
 
-We're having success with `docker run --rm -p 5000:5000 --name knot-mosaics --read-only --tmpfs /app/shellfindFiles --tmpfs /tmp knot-mosaics:dev` and the included Dockerfile.
+We're having success with `docker run --rm -p 5000:5000 --name knot-mosaics --read-only --tmpfs /tmp knot-mosaics:dev` and the included Dockerfile.
 
 #### Running Docker Container in Azure App Service using Azure Container Registry (ACR)
 

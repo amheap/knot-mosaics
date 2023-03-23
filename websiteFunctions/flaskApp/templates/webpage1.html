@@ -13,19 +13,28 @@
 
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
     <div align="center">
-    <h1>Knot Mosaic Maker</h1>
-    <p>Drag tiles onto the grid to make a knot mosaic, or search and display your favorite knot* as a knot mosaic! </br>
-       Right click a tile to roatate it!
-    </p>
+<img src="banner2.png" alt="Knot Mosaic Maker"  style="width:80%">
+<!--    <h1><FONT color="#5744C6">Knot Mosaic Maker</FONT></h1>-->
     </div><!-- top content -->
-    <div align="center"> 
+    <div align="left">
+    <h4>Return to <a href="https://www.geneseo.edu/knotmosaics">Knot Mosaic Space</a></h4>
+    </div>
+<div align="center">
+<table cellspacing="1" cellpadding="10" border="3" align="center">
+        <tr>
+        <td width="50%" style="vertical-align: top;"><h2 align="center">Search for a Knot</h2>
+            <p align="center">
+            Search for and display your favorite knot* as a knot mosaic.<br>
+            <em>For example, type: 3_1, 10_54, 11a_98, 12n_522</em>
+            </p>
 
-     <form autocomplete="off" action="/" method="post">
+<div align="center">
+
+      <form autocomplete="off" action="/" method="post">
 
      Search a knot: <div class="autocomplete" > <input id="knotSearchInput" type="text" name="knotSearch" placeholder="knot name" {% if lastSearch %}value="{{ lastSearch }}" {% endif %}>
 </div>
-<input type="submit" value="Display Knot"><br>
-<em>Example: 3_1, 10_54, 11a_98, 12n_522</em>
+<input type="submit" value="Display Knot">
 <br>
 <br>
        First Priority: <select name="minOpt1" id="sel1" onchange="setOptions()">
@@ -34,7 +43,7 @@
            <option value="Mosaic" {% if resultsDict['min1'] == "Mosaic" %}selected="selected"{% endif%}>Minimize mosaic</option>
            <option value="TileNum" {% if resultsDict['min1'] == "TileNum" %}selected="selected"{% endif%}>Minimize tiles</option>
          </select>
-         Second: <select name="minOpt2" id="sel2">
+         <br>Second Priority: <select name="minOpt2" id="sel2">
            <option value="Crossings" {% if resultsDict['min2'] == "Crossings" %}selected="selected"{% endif%}">Minimize crossings</option>
            <option value="Mosaic" {% if resultsDict['min2'] == "Mosaic" %}selected="selected"{% endif%}>Minimize mosaic</option>
            <option value="TileNum" {% if resultsDict['min2'] == "TileNum" %}selected="selected"{% endif%}>Minimize tiles</option>
@@ -43,7 +52,7 @@
        <option value="Mosaic" >Minimize mosaic</option>
        <option value="TileNum">Minimize tiles</option>
        </select>
-       Second: <select name="minOpt2" id="sel2">
+       <br>Second Priority: <select name="minOpt2" id="sel2">
        <option value="Crossings" >Minimize crossings</option>
        <option value="Mosaic" selected="selected">Minimize mosaic</option>
        <option value="TileNum">Minimize tiles</option>
@@ -51,9 +60,25 @@
        </select>
      </form>
    </div>
-    
-</br>
-    <div class="dropdown">
+        <p align="center">*All knots with crossing number 10 or less have a space-efficient minimal knot moasic. Knots with higher crossing numbers may be missing from our database.<p>
+        </td>
+        <td width="50%" style="vertical-align: top;"><div align="center">
+    <h2 align="center">Build Your Own Knot Mosaic</h2>
+</div>
+<div align="left">
+    <h3>Features:</h3>
+    <ul>
+    <li>Drag tiles onto the grid to make a knot mosaic.</li>
+    <li>Click "Identify Knot" to see what knot you created.</li>
+    <li>Right click a tile to rotate it.</li>
+    <li>Drag a tile to the trash can to delete it.</li>
+    <li>Select a mosaic size or predefined layout:</li>
+    </ul>
+    <p>
+    </p>
+
+</div>
+    <div  align="center" class="dropdown">
       <button onclick="myFunction()" class="dropbtn">Mosaic Size</button>
         <div id="myDropdown" class="dropdown-content">
           <a id="size2" value="2"  onclick="tableClear();tableCreate(2, '0')" >2x2</a>
@@ -67,7 +92,7 @@
           <a id="size10" value="10" onclick="tableClear();tableCreate(10, '0')">10x10</a>
         </div>
     </div>
-    <div class="dropdown">
+    <div  align="center" class="dropdown">
       <button onclick="dropdownFunc2()" class="dropbtn">Space Efficient Layouts</button>
         <div id="chooseKnot" class="dropdown-content">
           <div id="6x6layouts" >
@@ -87,23 +112,27 @@
           <a id="layout7-37" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,4,3,0,0,4,0,0,0,0,3,4,0')" >7-37</a>
           <a id="layout7-39" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,4,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-39</a>
           <a id="layout7-41" onclick="tableClear();tableCreate(7, '0,2,1,2,1,0,0,2,0,0,0,0,1,0,3,0,0,0,0,0,1,2,0,0,0,0,0,4,3,0,0,0,0,0,1,0,3,0,0,0,0,4,0,0,3,4,3,4,0')" >7-41</a>
-
-        
           </div> <!-- 7x7layouts -->
         </div>
     </div>
-</br>
+</td>
+        </tr>
+
+</table>
+<p></p>
+<p></p>
+
   <div class="container" style="display: flex">
   <div style="width:{% if resultsDict %}50%{% else %}100%{% endif %}" > <!-- mosaic -->
 
 <div align="center">
-    <div id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)">
-      <img  src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
      <form action="/" method="post">
 <button type="button" onclick="tableClear()" class="clearbtn">Clear Mosaic</button>
      <input type="hidden" id="flaskVector" name="vector" value={% if matrix %}'{{ matrix }}'{% else %}'0'{% endif %}></input>
      <input type="submit" name="vector2Flask" class="dropbtn" value="Identify Knot"></input>
-     </form>      
+     </form>
+    <div id="trash" draggable="false" class="trash" ondrop="trashdrop(event)" ondragover="allowDrop(event)">
+      <img  src="{{url_for('static', filename='pictures/trash.PNG')}}" width="75" height="75"></div>
 </div>
 
    <table align="center" border="0">
@@ -126,7 +155,7 @@
 <div id='tableau'>
     <table align="center">
 
-    </table> 
+    </table>
 
   </div>
 
@@ -172,8 +201,6 @@
 </div> <!-- container -->
 
 
-<p>*All knots with crossing number 10 or less have a space-efficient minimal knot moasic. Knots with higher crossing numbers may be missing.<p>
-
 <script>
 // initiating the autocomplete function on the knot search input
 var nameArray = {{ knotNames|tojson }};
@@ -187,5 +214,8 @@ autocomplete(document.getElementById("knotSearchInput"), nameArray);
 
 </script>
 
+<p><hr><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license"><img alt="Creative Commons License" src="https://www.geneseo.edu/sites/default/files/sites/proofspace/88x31.png" style="border-width: 0px; width: 88px; height: 31px;" /></a>
+<a href="/knotmosaics" rel="cc:attributionURL">Knot Mosaic Space</a> was created by <a href="https://www.geneseo.edu/math/heap">Aaron Heap</a> and his students at <a href="https://www.geneseo.edu">SUNY Geneseo</a> and is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+
   </body>
-</html>
+</html> 

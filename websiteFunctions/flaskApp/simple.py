@@ -13,7 +13,8 @@ app = Flask(__name__)
 df = pd.read_csv("allKnots.csv")
 knownKnots = sorted(df.Name.unique())
 # defining the layout vectors used in returning a specified knot
-# the m4_12 layout isn't really a layout, just a placeholder for the 3_1 knot
+# the m2_4 and m4_12 layouts aren't really layouts, just placeholders for the 0_1 and 3_1 knots
+m2_4 = np.zeros([2,2]).astype('int') - 1
 m4_12 = np.zeros([4,4]).astype('int') - 1
 m5_17 = np.array([[ 0,  2,  1,  0,  0],
  [ 2, -1, -1,  1,  0],
@@ -109,7 +110,7 @@ m7_41 = np.array([[ 0,  2,  1,  2,  1,  0,  0],
  [ 0,  0,  3,  4,  3,  4,  0]])
 
 
-layoutDict = {"4-12":m4_12, "5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_32, "7-27":m7_27, "7-29":m7_29, "7-31":m7_31, "7-32":m7_32, "7-34":m7_34, "7-36":m7_36, "7-39":m7_39, "7-37":m7_37, "7-41":m7_41}
+layoutDict = {"2-4":m2_4, "4-12":m4_12, "5-17":m5_17, "6-22":m6_22, "6-24":m6_24, "6-27":m6_27, "6-32":m6_32, "7-27":m7_27, "7-29":m7_29, "7-31":m7_31, "7-32":m7_32, "7-34":m7_34, "7-36":m7_36, "7-39":m7_39, "7-37":m7_37, "7-41":m7_41}
 
 @app.route('/')
 def home():
@@ -158,7 +159,7 @@ def results():
       return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
     # looking for a knot with crossing number greater than 16?
     if re.findall("^1[7-9]_", knotName):
-      ans = "Knots with crossing number greater than 16 have are unknown"
+      ans = "Knots with crossing number greater than 16 are unknown"
       return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
     min1 = request.form['minOpt1']
     min2 = request.form['minOpt2']
@@ -175,17 +176,17 @@ def results():
     if not mask.any(): 
       ans = 'A mosaic for the ' + knotName + ' knot has not yet been discovered'
       return render_template('webpage1.html', answer=ans, knotNames=list(knownKnots), lastSearch=knotName)
-    vector = df[mask].Vector.get_values()[0]
-    tileNum = df[mask].TileNum.get_values()[0]
+    vector = df[mask].Vector.to_numpy()[0]
+    tileNum = df[mask].TileNum.to_numpy()[0]
     # Check if the tile number is realized (then same with mosaic and crossing)
     if tileNum == df[mask].TileNum.min(): 
       minTile = 'min'
     else: minTile = 'known'
-    mosaicNum = df[mask].Mosaic.get_values()[0]
+    mosaicNum = df[mask].Mosaic.to_numpy()[0]
     if mosaicNum == df[mask].Mosaic.min(): 
       minMosaic = 'min'
     else: minMosaic = 'known'
-    crossings = df[mask].Crossings.get_values()[0]
+    crossings = df[mask].Crossings.to_numpy()[0]
     if str(crossings) == re.search("^\d+", knotName).group():
       minCrossing = 'min'
     elif crossings > df[mask].Crossings.min():

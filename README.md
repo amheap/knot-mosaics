@@ -7,7 +7,7 @@ The pythonFiles directory contains files used to draw knots
 The shellfindFiles directory contains dummy files used for runshellfind
 
 *************************************
-NOTE: The tables of knots that contain knots with crossing number up to 16 are too large for this github repository to store. Here's a link to the full table with crossing number 0 to 16: https://drive.google.com/file/d/1kLz41m4Ywb4vtOfes6FPxPv2YjkG5Bch/view?usp=sharing
+NOTE: The tables of knots that that are included in the 'tables' directory go up to crossing number 13. Tables that contain knots with larger crossing number are too large for this github repository to store. Here's a link to the full table with crossing number 0 to 16: https://drive.google.com/file/d/1kLz41m4Ywb4vtOfes6FPxPv2YjkG5Bch/view?usp=sharing
 *************************************
 
 Below are instructions on running various pieces of the project

@@ -1,10 +1,10 @@
 # knot-mosaics
 
-This repository contains the work done by James Canning and Greg Vinal, with Dr. Aaron Heap and Dr. Doug Baldwin from SUNY Geneseo.
+This repository contains the work done by Dr. Aaron Heap, Dr. Doug Baldwin, and their students, James Canning and Greg Vinal, at SUNY Geneseo.
 In the main directory are the files used to run the pipeline that finds all possible knot mosaics on a given layout.
-The websiteFunctions/flaskApp directory contains all the files needed to run the flask website.
-The pythonFiles directory contains files used to draw knots
-The shellfindFiles directory contains dummy files used for runshellfind
+The websiteFunctions/flaskApp directory contains all the files needed to run the Knot Mosaic Maker website.
+The pythonFiles directory contains files used to draw knots.
+The shellfindFiles directory contains dummy files used for runshellfind.
 
 *************************************
 NOTE: The tables of knots that that are included in the 'tables' directory go up to crossing number 13. Tables that contain knots with larger crossing number are too large for this github repository to store. Here's a link to the full table with crossing number 0 to 16:

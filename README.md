@@ -25,7 +25,7 @@ We're having success with `docker run --rm -p 5000:5000 --name knot-mosaics --re
 #### Running Docker Container in Azure App Service using Azure Container Registry (ACR)
 
 1. `docker build --tag knot-mosaics .` to build a new image for your working copy.
-2. `docker login {acr name}.azurecr.io` to authenticate to your Azure Container Registry.
+2. `docker login {acr name}.azurecr.io` to authenticate to your Azure Container Registry. (Use ACR Acces Keys, or alternative method.)
 3. `docker tag knot-mosaics {acr name}.azurecr.io/knot-mosaics` to tag your image with your Azure Container Registry URL.
 4. `az acr login --name {acr name}` to use the Azure CLI to authenticate to your ACR.
 5. `docker push --all-tags {acr name}.azurecr.io/knot-mosaics` to push all your tagged knot-mosaics images to Azure.

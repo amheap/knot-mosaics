@@ -6,13 +6,32 @@ The websiteFunctions/flaskApp directory contains all the files needed to run the
 The pythonFiles directory contains files used to draw knots.
 The shellfindFiles directory contains dummy files used for runshellfind.
 
+## Knot Tables
+
 *************************************
 NOTE: The tables of knots that that are included in the 'tables' directory go up to crossing number 13. Tables that contain knots with larger crossing number are too large for this github repository to store. Here's a link to the full table with crossing number 0 to 16:
 
 https://drive.google.com/file/d/1kLz41m4Ywb4vtOfes6FPxPv2YjkG5Bch/view?usp=sharing
+
+This file can also be found in compressed gzip format at `websiteFunctions/flaskApp/knotTable0-16.gz`.
 *************************************
 
-Below are instructions on running various pieces of the project
+## Flask Website
+
+### Docker
+
+We're having success with `docker run --rm -p 5000:5000 --name knot-mosaics --read-only --tmpfs /app/shellfindFiles --tmpfs /tmp knot-mosaics` and the included Dockerfile.
+
+#### Running Docker Container in Azure App Service using Azure Container Registry (ACR)
+
+1. `docker build --tag knot-mosaics .` to build a new image for your working copy.
+2. `docker login {acr name}.azurecr.io` to authenticate to your Azure Container Registry. (Use ACR Acces Keys, or alternative method.)
+3. `docker tag knot-mosaics {acr name}.azurecr.io/knot-mosaics` to tag your image with your Azure Container Registry URL.
+4. `az acr login --name {acr name}` to use the Azure CLI to authenticate to your ACR.
+5. `docker push --all-tags {acr name}.azurecr.io/knot-mosaics` to push all your tagged knot-mosaics images to Azure.
+6. Update your App Service instance to use the new image you just pushed.
+
+## Pipeline
 
 How to start a new pipeline
 In main directory copy the base_dt_make and basePipe files into new files
@@ -23,11 +42,11 @@ cp basePipe 7-31Pipe
 Edit the top of the new dt_make file to specify layout and minimum crossing number 
 
 vi 7-31_dt_make ~ or open with whatever text editor you prefer
-# choose the layout, written as a string of the form 'mosiacSize-numberTiles'
-# options are defined in layoutDict below
+choose the layout, written as a string of the form 'mosiacSize-numberTiles'
+options are defined in layoutDict below
 layout = '7-31'
 
-#choose the minimum crossing number of knots you're looking for
+choose the minimum crossing number of knots you're looking for
 minCrossings = 9
 
 Choose which knots you want to identify with the identifyKnot file
@@ -35,7 +54,6 @@ Copy the baseIdentifyKnot file and change which table it uses
 cp baseIdentifyKnot identifyKnot7-16
 
 Edit the new identifyKnot file:
-# CHOOSE A TABLE
 table=tables/knotTable0-16
 -- this might involve creating a table that has only the knots you want to search for. The runtime is reduced by leaving out the smaller knots so that it doesn't waste time and memory writing the unknot to the output millions of times. To do this just copy one of the existing knotTables and delete the lines you don't want
 

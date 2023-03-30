@@ -3,5 +3,5 @@
 ## This runs all the programs into each other
 
 ## change the dt_make file and the identifyknot file to the ones you want
-./7_5comb_dt_make | ./runshellfindDT | ./newidentifyknot
+./base_dt_make | ./runshellfindDT | ./baseIdentifyKnot
 

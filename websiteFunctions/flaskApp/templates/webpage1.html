@@ -13,7 +13,7 @@
 
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
     <div align="center">
-<img src="banner2.png" alt="Knot Mosaic Maker"  style="width:80%">
+        <img src="{{url_for('static', filename='pictures/banner2.png')}}" alt="Knot Mosaic Maker"  style="width:80%">
 <!--    <h1><FONT color="#5744C6">Knot Mosaic Maker</FONT></h1>-->
     </div><!-- top content -->
     <div align="left">
@@ -90,6 +90,9 @@
           <a id="size8" value="8"  onclick="tableClear();tableCreate(8, '0')" >8x8</a>
           <a id="size9" value="9"  onclick="tableClear();tableCreate(9, '0')" >9x9</a>
           <a id="size10" value="10" onclick="tableClear();tableCreate(10, '0')">10x10</a>
+          <a id="size16" value="12" onclick="tableClear();tableCreate(12, '0')">12x12</a>
+          <a id="size16" value="16" onclick="tableClear();tableCreate(16, '0')">16x16</a>
+          <a id="size16" value="20" onclick="tableClear();tableCreate(20, '0')">20x20</a>
         </div>
     </div>
     <div  align="center" class="dropdown">
